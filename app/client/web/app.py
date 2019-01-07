@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask import render_template
 import socket
 import requests
@@ -51,3 +51,11 @@ def getCoverURI(book_id, width, height):
 @app.route('/Author/id:<author_id>/portrait/width:<width>/height:<height>')
 def getAuthorPortaitURI(author_id, width, height):
     return 'http://{}:5002/Author/{}/portrait/thumbnail:{}:{}'.format(host_ip, author_id, width, height)
+
+
+@app.route('/Book/id:<book_id>/uid:<user_id>/currentTrack', methods=['PUT'])
+def updateUserBookInfo(book_id, user_id):
+    jsonPUT = request.json
+    requests.put('http://{}:5002/Book/{}/user/{}/track'.format(host_ip, book_id, user_id),
+                 data=jsonPUT)
+    return '/C'

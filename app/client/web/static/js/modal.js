@@ -18,32 +18,22 @@ var pageState = (function(){
     var sideBarState;
     var playPanelState;
     var displayingInfo;
+    var playingInfo = {};
+    var playing;
 
-    var pub = {};
+    var pub = {}
 
-    pub.ChangeInfoState = function(newState){
-        infoState = newState;
+    pub.setPlayingBook = function(bookID){
+        playingInfo.bookID = bookID;
     }
 
-    pub.ChangeSideBarState = function(newState){
-        sideBarState = newState;
-    }
-
-    pub.ChangePlayPanelState = function(newState){
-        playPanelState = newState;
-    }
-
-    pub.ToggleInfoState = function(){
-        infoState = !infoState;
-    }
-
-    pub.ToggleSideBarState = function(){
-        sideBarState = !sideBarState;
-    }
-
-    pub.TogglePlayPanelState = function(){
-        playPanelState = !playPanelState;
+    pub.getPlayingBook = function(){
+        return playingInfo.bookID
     }
 
     return pub;
+}());
+
+var userInfo = (function(){
+    var userID;
 });

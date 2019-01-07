@@ -3,6 +3,8 @@ jQuery(function(){
     pageState.infoState = false;
     pageState.playPanelState = false;
     pageState.sideBarState = false;
+    userInfo.userID = 0;
+    pageState.setPlayingBook(1);
 });
 
 jQuery(function(){

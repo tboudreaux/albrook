@@ -16,7 +16,9 @@
 <script type="text/javascript" src="{{ url_for('static',filename='js/books.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/utils.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/modal.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static',filename='js/api_calls.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/GET_api_calls.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/PUT_api_calls.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/audio.js') }}"></script>
 
 <script type="text/javascript">
   var info = {{ info | tojson }};
@@ -108,7 +110,8 @@
         <div class="gallery" id="audioPanelContainer">
           <div class="gelement" id="player">
             <audio controls="controls" id="Player">
-              <source id="audioSource" src=""></source>
+              <!-- <source id="audioSource" src=""></source> -->
+              <source src="http://localhost:5002/Book/1/0/stream" id="audioSource">
             </audio>
           </div>
           <div class="gelement" id="playingInformation">

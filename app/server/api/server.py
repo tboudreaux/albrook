@@ -1,4 +1,4 @@
-from flask import Flask, Response, send_from_directory
+from flask import Flask, Response, send_from_directory, request
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from flask_jsonpify import jsonify
@@ -258,6 +258,11 @@ class CurrentTrack(Resource):
     def get(self, user_id, book_id):
         track = userBookServer.getPickUpInformation(db_connect, book_id, user_id)
         return jsonify(track)
+
+    def put(self, user_id, book_id):
+        userBookServer.updateTrackInfo(db_connect, user_id, book_id,
+                                       request.form['currentChapter'],
+                                       request.form['currentLocation'])
 
 
 api.add_resource(Authors, '/Authors')                         # Get all Authors
