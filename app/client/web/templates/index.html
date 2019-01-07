@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Style Sheets -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
+
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+
+<!-- External Javascript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="{{ url_for('static',filename='js/jqready.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/books.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/utils.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/modal.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/api_calls.js') }}"></script>
+
+<script type="text/javascript">
+  var info = {{ info | tojson }};
+  var numBooks = {{ numBooks }};
+  var prevPanel = -1;
+  var Hide = true;
+  pageState.displayingInfo = null;
+</script>
+
+<html>
+    <div id="infoBar">
+      <div id="leftControls">
+        <button id="homeButton" class="navigationButton"><i class="fa fa-home" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div id="rightControls">
+        <input type="text" placeholder="Search.." id="search" style="width: 50%">
+      </div>
+    </div>
+
+    <div id="mainContainer">
+
+      <div id="sideBar" class="sideBar">
+          <h4 style="color: white;">Navigation</h4>
+          <hr>
+          <button class="navigationButton"><i class="fa fa-book" aria-hidden="true"></i>  Books</button><br>
+          <button class="navigationButton"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  Authors</button><br>
+          <button class="navigationButton"><i class="fa fa-archive" aria-hidden="true"></i>  Serise</button><br>
+          <hr>
+          <button class="navigationButton"><i class="fa fa-bookmark" aria-hidden="true"></i>  Bookmarks</button><br>
+          <button class="navigationButton"><i class="fa fa-tags" aria-hidden="true"></i>  Tags</button><br>
+          <hr>
+          <button class="navigationButton"><i class="fa fa-user" aria-hidden="true"></i>  Account</button><br>
+          <button class="navigationButton"><i class="fa fa-cogs" aria-hidden="true"></i>  Setting</button><br>
+      </div>
+      <div id="sideBarToggle">
+        <div id="sideBarToggleShow">
+          <!-- Side bar toggle line drawn here -->
+        </div>
+      </div>
+
+      <div class="gallery">
+        <div class="gelement" id="bookGallery">
+          <ul id="rig">
+            {% for book in range(1, numBooks+1) %}
+              <li>
+                  <div class="rig-cell" id="book_panel_{{ book }}">
+                      <img class="rig-img" src="http://{{ request.host.split(':')[0] }}:5002/Book/{{ book }}/cover/thumbnail:500:500">
+                      <span class="rig-overlay"></span>
+                      <!-- <span class="rig-text">{{ titles[book-1] }}</span> -->
+                      <span class="rig-text" id="rig-text-{{ book }}"><i id="playIcon" class="fa fa-play-circle-o" aria-hidden="true"></i></span>
+                  </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="gelement" id="infoPane" style="max-height: 100%">
+          <div id="infoText">
+            <div id="infoHead">
+              <div class="gallery" id="titleHeader">
+                <h1 style="font-family:Crimson Text; margin: 2%;"><a id="infoTitle">Book Title Here</a></h1>
+              </div>
+              <h2 style="font-family:Crimson Text; margin: 2%;"><button id="infoAuthor" class="navigationButton" style="padding: 0;">Author Name</button></h2>
+              <h2 style="font-family:Crimson Text; margin: 2%;"><a id="infoNarrator">Narrator Name</a></h2>
+            </div>
+            <!-- TODO => get text at bottom of div to fade -->
+            <div style="height: 40%" id="infoContent">
+              <div style="max-height: 60%; overflow: auto; margin: 2%; font-family:Crimson Text;" id="infoDesc">
+                Description of Book
+              </div>
+              <div id="infoPhotoContainer" style="height: 40%; width: 40%; position: relative; left: 2%;">
+                <img id="infoPhoto" src="{{ url_for('static',filename='img/bookPlaceHolder.png') }}" style="max-height: 100%; max-width: 100%;">
+              </div>
+            </div>
+            <div id="infoFoot">
+              <!-- Footer Info Here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <br>
+
+      <div id="playPanelShowControlContainer">
+        <button id="playPanelShowControl"><i class="fa fa-arrow-up"></i></button>
+      </div> 
+      <div id="playPanel" class="bottomSlide">
+        <div class="gallery" id="audioPanelContainer">
+          <div class="gelement" id="player">
+            <audio controls="controls" id="Player">
+              <source id="audioSource" src=""></source>
+            </audio>
+          </div>
+          <div class="gelement" id="playingInformation">
+            <div class="gallery">
+              <div class="gelement" id="CurrentStaticInfo">
+                <p id="currentTitle">Title<br></p><p id="currentAuthor">Author</p>
+              </div>
+              <div class="gelement" id="CurrentDynamicInfo">
+                <p id="currentChapter">Chapter</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</html>

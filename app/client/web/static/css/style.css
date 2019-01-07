@@ -1,0 +1,331 @@
+#rig {
+    max-width:80vw;
+    margin-left:10vw;
+    margin-right:10vw;
+    padding:0;
+    font-size:0; /* Remember to change it back to normal font size if have captions */
+    list-style:none;
+
+}
+#rig li {
+    display: inline-block;
+    *display:inline;/*for IE6 - IE7*/
+    width:25%;
+    vertical-align:middle;
+    box-sizing:border-box;
+    margin:0;
+    padding:5px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+        
+/* The wrapper for each item */
+.rig-cell {
+    /*margin:12px;
+    box-shadow:0 0 6px rgba(0,0,0,0.3);*/
+    display:block;
+    position: relative;
+    overflow:hidden;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+
+}
+        
+/* If have the image layer */
+.rig-img {
+    display:block;
+    width: 100%;
+    height: auto;
+    border:none;
+    transform:scale(1);
+    transition:all 1s;
+}
+
+#rig li:hover .rig-img {
+    transform:scale(1.05);
+}
+        
+/* If have the overlay layer */
+.rig-overlay {
+    position: absolute;
+    display:block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    background: #3DC0F1;
+    background-size:50px 50px;
+    opacity:0;
+    filter:alpha(opacity=0);/*For IE6 - IE8*/
+    transition:all 0.6s;
+}
+#rig li:hover .rig-overlay {
+    opacity:0.8;
+}
+
+/* If have captions */
+.rig-text {
+    display:block;
+    padding:0px 0px;
+    box-sizing:border-box;
+    position:absolute;
+    left:40%;
+    top:40%;
+    width:25%;
+    height:25%;
+    text-align:center;
+    vertical-align: middle;
+    text-transform:capitalize;
+    font-size:50px;
+    font-weight:bold;
+    font-family: 'Oswald', sans-serif;
+    font-weight:normal!important;
+
+    bottom:25%;
+    color:white;
+    opacity:0;
+    filter:alpha(opacity=0);/*For older IE*/
+    transform:translateY(0);
+    transition:all .3s;
+}
+
+
+
+#rig li:hover .rig-text {
+    transform:translateY(0px);
+    opacity:0.9;
+}
+
+@media (max-width: 9000px) {
+    #rig li {
+        width:25%;
+    }
+}
+
+@media (max-width: 700px) {
+    #rig li {
+        width:33.33%;
+    }
+}
+
+@media (max-width: 550px) {
+    #rig li {
+        width:50%;
+    }
+}
+
+.gallery {
+  display: flex;
+  flex-direction: row;
+}
+
+.gelement{
+  flex: 50%;
+}
+
+@media screen and (max-width: 800px) {
+  .gallery {
+    display: flex;
+    flex-direction: column; 
+  }
+}
+
+.button {
+  background-color: #3DC0F1;
+  border: none;
+  color: black;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.play {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+.bottomSlide{
+  border: 1px solid #202020;
+  margin-top: 25px;
+  height: 15vh;
+  padding-top: 25px;
+  -webkit-box-shadow: 0px -4px 3px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 0px -4px 3px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px -4px 3px rgba(50, 50, 50, 0.75);
+  left: 0;
+  right: 0;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: #FFFFFF;
+  z-index: 2;
+}
+
+
+
+#infoPane{
+  position: absolute;
+  left: 100%;
+  color: white;
+  /*background-color: #d8e2e9;*/
+/*  background-image: url("../img/plexBackground.png");
+  background-size: cover;*/
+  height: 90vh;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+#infoPane::after {
+  content: "";
+  background: url("../img/plexBackground.png");
+  background-size: cover;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;  
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px; 
+}
+
+#infoText{
+  position: relative;
+  height: 100%;
+  width: 100%
+}
+
+#titleHeader{
+  background: url("../img/background.gif");
+  filter: brightness(100%);
+  color: white;
+  box-shadow: 0px 5px 5px #888888;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+#playPanelShowControlContainer{
+  position: fixed;
+  bottom: 0px;
+  left:95%;
+  color: white;
+}
+
+#playPanelShowControl{
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  color: white;
+}
+
+.navigationButton{
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  color: white;
+  padding: 2%;
+  transform: scale(1);
+}
+
+.navigationButton:hover{
+  transform: scale(1.05);
+}
+
+.gradientInfo{
+/*  background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 90%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(95%,rgba(255,255,255,1)));
+  background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 90%);
+  background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 90%);
+  background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 90%);*/
+  background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 90%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 );
+}
+
+html{
+  background-image: url("../img/landscapeBackground.JPG");
+  background-size: cover;
+  height: 100%;
+  overflow: hidden;
+}
+
+#infoBar{
+  position: relative;
+  background-color: black;
+  width: 100%;
+  height: 5vh;
+  background-image: url("../img/plexBackground.png");
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+#leftControls{
+  position: absolute;
+  left:0%;
+}
+#rightControls{
+  position: absolute;
+  left:80%;
+  width:30%;
+}
+
+.sideBar{
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 15vw;
+  left: -15vw;
+  z-index: 1; /* Stay on top */
+}
+
+.sideBar::after{
+  content: "";
+  background: url("../img/plexBackground.png");
+  background-size: cover;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;  
+}
+
+#sideBarToggle{
+  position: absolute;
+  left: 0%;
+  height: 100%;
+  width: 3%;
+}
+
+#sideBarToggleShow{
+  position: relative;
+  border-left: 3px solid #dddddd;
+  height: 33.33%;
+  left: 25%;
+  top: 33.35%;
+  transform:scale(1);
+}
+
+#sideBarToggle:hover #sideBarToggleShow{
+  transform: scale(1.05);
+}
