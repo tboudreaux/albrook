@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def getPickUpInformation(engine, book_id, user_id):
     conn = engine.connect()
     query = conn.execute("""SELECT UsersBooks.LastChapter,
@@ -11,8 +13,21 @@ def getPickUpInformation(engine, book_id, user_id):
 
 def updateTrackInfo(engine, user_id, book_id, currentTrack, currentLocation):
     conn = engine.connect()
-    conn.execute("""UPDATE UsersBooks SET LastLocation = "{}",
-                    LastChapter = {} WHERE UsersBooks.BookID = {} and
-                    UsersBooks.UserID = {}""".format(currentLocation,
-                                                    currentTrack,
-                                                    book_id, user_id))
+    exists = conn.execute("""SELECT COUNT(*) AS NUM FROM UsersBooks
+                             WHERE UsersBooks.BookID = {} and
+                             UsersBooks.UserID = {}""".format(book_id, user_id))
+    result = {'data': [dict(zip(tuple(exists.keys()), i)) for i in exists.cursor]}
+    if result['data'][0]['NUM'] == 1:
+        LastOpened = datetime.now().strftime("%d-%m-%Y %H:%M")
+        conn.execute("""UPDATE UsersBooks SET LastLocation = "{}",
+                        LastChapter = {}, LastOpened = "{}" WHERE UsersBooks.BookID = {} and
+                        UsersBooks.UserID = {}""".format(currentLocation,
+                                                        currentTrack, LastOpened,
+                                                        book_id, user_id))
+    else:
+        LastOpened = datetime.now().strftime("%d-%m-%Y %H:%M")
+        conn.execute("""INSERT INTO UsersBooks (UserID, BookID, LastOpened,
+                        LastLocation, LastChapter) VALUES ({}, {},
+                        \"{}\", \"{}\", \"{}\")""".format(user_id, book_id,
+                                                          LastOpened, currentLocation,
+                                                          currentTrack))

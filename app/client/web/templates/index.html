@@ -17,7 +17,7 @@
 <script type="text/javascript" src="{{ url_for('static',filename='js/utils.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/modal.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/GET_api_calls.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static',filename='js/PUT_api_calls.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/POST_api_calls.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/audio.js') }}"></script>
 
 <script type="text/javascript">
@@ -25,7 +25,6 @@
   var numBooks = {{ numBooks }};
   var prevPanel = -1;
   var Hide = true;
-  pageState.displayingInfo = null;
 </script>
 
 <html>
@@ -68,7 +67,6 @@
                   <div class="rig-cell" id="book_panel_{{ book }}">
                       <img class="rig-img" src="http://{{ request.host.split(':')[0] }}:5002/Book/{{ book }}/cover/thumbnail:500:500">
                       <span class="rig-overlay"></span>
-                      <!-- <span class="rig-text">{{ titles[book-1] }}</span> -->
                       <span class="rig-text" id="rig-text-{{ book }}"><i id="playIcon" class="fa fa-play-circle-o" aria-hidden="true"></i></span>
                   </div>
               </li>
@@ -111,7 +109,7 @@
           <div class="gelement" id="player">
             <audio controls="controls" id="Player">
               <!-- <source id="audioSource" src=""></source> -->
-              <source src="http://localhost:5002/Book/1/0/stream" id="audioSource">
+              <source src="" id="audioSource">
             </audio>
           </div>
           <div class="gelement" id="playingInformation">

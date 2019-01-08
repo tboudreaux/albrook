@@ -13,26 +13,31 @@ var bookSelector = (function(){
     return pub;
 }());
 
-var pageState = (function(){
-    var infoState;
-    var sideBarState;
-    var playPanelState;
-    var displayingInfo;
+var playerState = (function(){
     var playingInfo = {};
-    var playing;
-
-    var pub = {}
+    var pub = {};
 
     pub.setPlayingBook = function(bookID){
         playingInfo.bookID = bookID;
     }
 
     pub.getPlayingBook = function(){
-        return playingInfo.bookID
+        return playingInfo.bookID;
+    }
+
+    pub.setCurrentChapter = function(currentChapter){
+        playingInfo.currentChapter = currentChapter;
+    }
+
+    pub.getCurrentChapter = function(currentChapter){
+        return playingInfo.currentChapter;
     }
 
     return pub;
+
 }());
+
+var pageState = {};
 
 var userInfo = (function(){
     var userID;

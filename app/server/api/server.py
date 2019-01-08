@@ -255,11 +255,11 @@ class TrackStream(Resource):
         return send_from_directory('/'.join(path.split('/')[:-1]), path.split('/')[-1])
 
 class CurrentTrack(Resource):
-    def get(self, user_id, book_id):
+    def get(self, book_id, user_id):
         track = userBookServer.getPickUpInformation(db_connect, book_id, user_id)
         return jsonify(track)
 
-    def put(self, user_id, book_id):
+    def post(self, book_id, user_id):
         userBookServer.updateTrackInfo(db_connect, user_id, book_id,
                                        request.form['currentChapter'],
                                        request.form['currentLocation'])

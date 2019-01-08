@@ -7,6 +7,7 @@ import json
 app = Flask(__name__)
 host_name = socket.gethostname()
 host_ip = socket.gethostbyname(host_name)
+print(host_ip)
 
 
 @app.route('/')
@@ -53,9 +54,8 @@ def getAuthorPortaitURI(author_id, width, height):
     return 'http://{}:5002/Author/{}/portrait/thumbnail:{}:{}'.format(host_ip, author_id, width, height)
 
 
-@app.route('/Book/id:<book_id>/uid:<user_id>/currentTrack', methods=['PUT'])
+@app.route('/Book/id:<book_id>/uid:<user_id>/currentTrack', methods=['POST'])
 def updateUserBookInfo(book_id, user_id):
-    jsonPUT = request.json
-    requests.put('http://{}:5002/Book/{}/user/{}/track'.format(host_ip, book_id, user_id),
-                 data=jsonPUT)
+    jsonPUT = request.get_json()
+    requests.post('http://{}:5002/Book/{}/user/{}/track'.format(host_ip, book_id, user_id), data=jsonPUT)
     return '/C'

@@ -3,8 +3,8 @@ jQuery(function(){
     pageState.infoState = false;
     pageState.playPanelState = false;
     pageState.sideBarState = false;
+    pageState.playing = false;
     userInfo.userID = 0;
-    pageState.setPlayingBook(1);
 });
 
 jQuery(function(){
@@ -39,6 +39,11 @@ jQuery(function(){
         smartInfo = smartInfoShow(e, prevPanel, true, false);
         prevPanel = smartInfo.panelNum;
         Hide = smartInfo.Hide;
+
+        if (!playPanelVisible()){
+          raisePlayPanel();
+        }
+        initAudioPlay(panelNum, userInfo.userID);
       }, false);
     }
 });
@@ -63,4 +68,12 @@ jQuery(function(){
       pageState.displayingInfo = "author";
     });
     
-})
+});
+
+jQuery(function(){
+  var audio = document.getElementById("Player");
+  audio.onpause = function() {
+    postAudioPosition(userInfo.userID, playerState.getPlayingBook());
+    pageState.playing = false;
+  };
+});
