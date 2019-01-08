@@ -33,6 +33,14 @@ var playerState = (function(){
         return playingInfo.currentChapter;
     }
 
+    pub.incrimentCurrentChapter = function(){
+        playingInfo.currentChapter += 1;
+    }
+
+    pub.decrimentCurrentChapter = function(){
+        playingInfo.currentChapter -= 1;
+    }
+
     return pub;
 
 }());

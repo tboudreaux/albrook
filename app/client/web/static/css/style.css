@@ -156,9 +156,9 @@
 
 .bottomSlide{
   border: 1px solid #202020;
-  margin-top: 25px;
+  /*margin-top: 25px;*/
   height: 15vh;
-  padding-top: 25px;
+  /*padding-top: 25px;*/
   -webkit-box-shadow: 0px -4px 3px rgba(50, 50, 50, 0.75);
   -moz-box-shadow: 0px -4px 3px rgba(50, 50, 50, 0.75);
   box-shadow: 0px -4px 3px rgba(50, 50, 50, 0.75);
@@ -167,8 +167,12 @@
   width: 100%;
   position: fixed;
   bottom: 0;
-  background-color: #FFFFFF;
+  /*background-color: #FFFFFF;*/
   z-index: 2;
+  background: #ddd;
+  /*margin: calc(50vh - 30px) auto;*/
+  text-align: center;
+  padding-bottom: 10px;
 }
 
 
@@ -328,4 +332,139 @@ html{
 
 #sideBarToggle:hover #sideBarToggleShow{
   transform: scale(1.05);
+}
+
+.progress {
+  width: 1px;
+  height: 5px;
+  background: #006B5A;
+  transition: width .1s linear;
+  top: 0;
+  position: relative;
+  z-index: 3;
+}
+
+#shadowProgress{
+  width: 100%;
+  height: 5px;
+  top: 0;
+  position: absolute;
+  z-index: 4;
+}
+
+#progressSlider {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #006B5A;
+  transition: width .1s linear;
+  top: -6px;
+  left: 0px;
+  position: relative;
+  border-radius: 50%;
+  z-index: 5;
+  transform: scale(1);
+
+}
+
+#progressSlider:hover{
+  transform: scale(1.05);
+}
+
+#togglePlay{  
+  background: #006B5A;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto 0;
+  width: 64px;
+  height: 64px;
+  border: 1px solid darken(#006B5A, 10%);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 150ms ease-out;
+  transform: scale(1);
+}
+
+#togglePlay:hover{
+  transform: scale(1.05);
+}
+
+#prevChapterSelect{  
+  background: #006B5A;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto 0;
+  width: 64px;
+  height: 64px;
+  border: 1px solid darken(#006B5A, 10%);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 150ms ease-out;
+  transform: scale(1);
+}
+
+#nextChapterSelect{  
+  background: #006B5A;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto 0;
+  width: 64px;
+  height: 64px;
+  border: 1px solid darken(#006B5A, 10%);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 150ms ease-out;
+  transform: scale(1);
+}
+
+.playControls:hover{
+  transform: scale(1.05);
+}
+
+#prevChapterSelect{
+  width: 42px;
+  height: 42px;
+}
+
+#nextChapterSelect{
+  width: 42px;
+  height: 42px;
+}
+
+.quint-column {
+  float: left;
+  width: 20%;
+}
+
+.tri-column {
+  float: left;
+  width: 33.33%;
+}
+
+.row{
+  display: flex;
+}
+
+.intra_row{
+  display: flex;
+}
+
+.auto-resize-portrait {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
+}
+.auto-resize-portrait img {
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%
+    height: 50px;
+    width: 50px;
 }

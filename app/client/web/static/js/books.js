@@ -6,7 +6,6 @@ function toggleinfoPane(info, panelNum, Hide) {
     $("#infoDesc").text(info.descs[indexNum]);
 
     var coverURI = getCoverURI(panelNum, 300, 300);
-    console.log("Cover URI is: " + coverURI);
     document.getElementById('infoPhoto').src = coverURI;
 
     bookSelector.ChangeBook(indexNum);

@@ -11,6 +11,7 @@
 
 <!-- External Javascript -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
 
 <script type="text/javascript" src="{{ url_for('static',filename='js/jqready.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/books.js') }}"></script>
@@ -105,14 +106,19 @@
         <button id="playPanelShowControl"><i class="fa fa-arrow-up"></i></button>
       </div> 
       <div id="playPanel" class="bottomSlide">
-        <div class="gallery" id="audioPanelContainer">
-          <div class="gelement" id="player">
-            <audio controls="controls" id="Player">
-              <!-- <source id="audioSource" src=""></source> -->
-              <source src="" id="audioSource">
-            </audio>
+        <div class="progress" id="progress"></div>
+        <div id="shadowProgress"></div>
+        <div id="progressSlider"></div>
+        <audio id="Player" ontimeupdate="advance()">
+          <source src="" id="audioSource">
+        </audio>
+        <div id="playControlsContainer" class="row">
+          <div class="quint-column">
+            <div class="auto-resize-portrait">
+              <img src="http://localhost:5002/Book/2/cover/thumbnail:200:200" id="playingImage">
+            </div>
           </div>
-          <div class="gelement" id="playingInformation">
+          <div id="leftPlayPanel" class="quint-column">
             <div class="gallery">
               <div class="gelement" id="CurrentStaticInfo">
                 <p id="currentTitle">Title<br></p><p id="currentAuthor">Author</p>
@@ -121,6 +127,21 @@
                 <p id="currentChapter">Chapter</p>
               </div>
             </div>
+          </div>
+          <div class="quint-column" id="buttonContainer">
+            <div class="intra_row">
+              <div class="tri-column" onClick="playPrevChapter()" id="prevChapterSelect"><i class="fa fa-backward" aria-hidden="true"></i></div>
+              <div id="togglePlay" onClick="togglePlay()" class="tri-column playControls"><i class="fa fa-play" aria-hidden="true"></i></div>
+              <div class="tri-column" onClick="playNextChapter()" id="nextChapterSelect"><i class="fa fa-forward" aria-hidden="true"></i></div>
+            </div>
+          </div>
+
+          <div id="rightPlayPanel" class="quint-column">
+            <p>Right Content Here</p>
+          </div>
+
+          <div id="trackInfo" class="quint-column">
+            <p id="percentCompeted">x/y</p>
           </div>
         </div>
       </div>

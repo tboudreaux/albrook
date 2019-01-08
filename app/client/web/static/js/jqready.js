@@ -46,36 +46,65 @@ jQuery(function(){
 
         initAudioPlay(panelNum, userInfo.userID);
 
+        var playButton = $("#togglePlay")
+        playButton.html("<i class=\"fa fa-pause\" aria-hidden=\"true\"></i>")
+
       }, false);
     }
 });
 
 jQuery(function(){
-    var sideBar = $("#sideBar");
-    var sideBarToggle = $("#sideBarToggle");
+  var sideBar = $("#sideBar");
+  var sideBarToggle = $("#sideBarToggle");
 
-    sideBarToggle.click(function(e){
-        toggleSideBar();
-    });
+  sideBarToggle.click(function(e){
+    toggleSideBar();
+  });
 });
 
 jQuery(function(){
-    var authorLink = $("#infoAuthor");
-    var infoText = $("#infoText");
-    authorLink.click(function(e){
-      infoText.fadeOut("slow", function() {
-          showAuthorInfo(e.target.innerText);
-      });
-      infoText.fadeIn("slow");
-      pageState.displayingInfo = "author";
+  var authorLink = $("#infoAuthor");
+  var infoText = $("#infoText");
+  authorLink.click(function(e){
+    infoText.fadeOut("slow", function() {
+      showAuthorInfo(e.target.innerText);
     });
+    infoText.fadeIn("slow");
+    pageState.displayingInfo = "author";
+  });
     
 });
 
 jQuery(function(){
-  var audio = document.getElementById("Player");
-  audio.onpause = function() {
-    postAudioPosition(userInfo.userID, playerState.getPlayingBook());
-    pageState.playing = false;
-  };
+  $("#Player").bind('ended', function(){
+      playNextChapter();
+  });
+});
+
+jQuery(function(){
+  var playButton = $("#togglePlay");
+  playButton.click(function(e){
+    if (pageState.playing == true){
+      playButton.html("<i class=\"fa fa-pause\" aria-hidden=\"true\"></i>")
+    }else{
+      playButton.html("<i class=\"fa fa-play\" aria-hidden=\"true\"></i>")
+    }
+  });
+});
+
+jQuery(function(){
+  // var progressSlider = $("#progressSlider");
+  document.getElementById('progressSlider').addEventListener('mousedown', mouseDown, false);
+  window.addEventListener('mouseup', mouseUp, false);
+});
+
+jQuery(function(){
+  var progress = $("#shadowProgress");
+  progress.click(function(e){
+    console.log('clicked');
+    var offsetX = $(this).offset().left
+    var posX = e.pageX - offsetX
+    var totalWidth = progress.width();
+    updateTrackPosition(posX/totalWidth);
+  });
 });
