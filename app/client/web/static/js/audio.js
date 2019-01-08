@@ -8,24 +8,19 @@ jQuery(function(){
         let bookID = playerState.getPlayingBook();
         let userID = userInfo.userID;
         window.timerID = setInterval(postAudioPosition, 10000, userID, bookID);
-        console.log("Setting timer ID -- " + window.timerID + " -- for book " + bookID);
     });
     document.getElementById("Player").addEventListener("pause", function(){
         clearInterval(window.timerID);
         playerState.playing = false;
-        console.log("Clearning timer ID -- " + window.timerID + " -- for book " + playerState.getPlayingBook());
     });
 });
 
 function initAudioPlay(book_id, user_id){
-    console.log('pageState.playing: ' + pageState.playing);
     var source = document.getElementById('audioSource');
     var audio = document.getElementById('Player');
 
     if (pageState.playing === true){
-        console.log("stashing location");
         postAudioPosition(userInfo.userID, playerState.getPlayingBook());
-        console.log("Clearning timer ID -- " + window.timerID + " -- for book " + playerState.getPlayingBook());
         clearInterval(window.timerID);
     }
 

@@ -19,7 +19,6 @@ def updateTrackInfo(engine, user_id, book_id, currentTrack, currentLocation):
     result = {'data': [dict(zip(tuple(exists.keys()), i)) for i in exists.cursor]}
     if result['data'][0]['NUM'] == 1:
         LastOpened = datetime.now().strftime("%d-%m-%Y %H:%M")
-        print("Query is: UPDATE UsersBooks SET LastLocation = \"{}\", LastChapter = {}, LastOpened = \"{}\" WHERE UsersBooks.BookID = {} and UsersBooks.UserID = {}".format(currentLocation, currentTrack, LastOpened, book_id, user_id))
         conn.execute("""UPDATE UsersBooks SET LastLocation = "{}",
                         LastChapter = {}, LastOpened = "{}" WHERE UsersBooks.BookID = {} and
                         UsersBooks.UserID = {}""".format(currentLocation,
