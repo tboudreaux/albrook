@@ -43,7 +43,9 @@ jQuery(function(){
         if (!playPanelVisible()){
           raisePlayPanel();
         }
+
         initAudioPlay(panelNum, userInfo.userID);
+
       }, false);
     }
 });
