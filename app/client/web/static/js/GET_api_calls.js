@@ -5,9 +5,9 @@ function getSyncStream(book_id, chapter_id){
     return xmlHttp.responseText;
 }
 
-function getCurrentTrackInfo (book_id, user_id){
+function getCurrentTrackInfo (book_id){
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "/Book/id:"+book_id+"/uid:"+user_id+"/currentTrack", false );
+    xmlHttp.open( "GET", "/Book/id:"+book_id+"/currentTrack", false );
     xmlHttp.send( null );
     return JSON.parse(xmlHttp.responseText);
 }

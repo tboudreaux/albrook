@@ -20,7 +20,7 @@ class trackServer:
 
 class userBookServer:
     @staticmethod
-    def getPickUpInformation(engine, book_id, user_id):
+    def getPickUpInformation(book_id, user_id):
         r = m.UserBook.query.filter_by(bookID=book_id, userID=user_id).all()
         result = {'data': [x.to_dict() for x in r]}
         return result

@@ -4,7 +4,6 @@ jQuery(function(){
     pageState.playPanelState = false;
     pageState.sideBarState = false;
     pageState.playing = false;
-    userInfo.userID = 0;
 });
 
 jQuery(function(){
@@ -44,13 +43,12 @@ jQuery(function(){
           raisePlayPanel();
         }
 
-        initAudioPlay(panelNum, userInfo.userID);
+        initAudioPlay(panelNum);
 
         var playButton = $("#togglePlay")
         playButton.html("<i class=\"fa fa-pause\" aria-hidden=\"true\"></i>")
 
 
-        console.log('HERE');
         var coverIMG = $("#playingImage");
         coverIMG.attr("src", getCoverURI(playerState.getPlayingBook(), 200, 200));
 

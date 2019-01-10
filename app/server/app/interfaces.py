@@ -123,7 +123,6 @@ class Book(Resource):
         return jsonify(result)
 
 class Thumbnail(Resource):
-    # @auth.login_required
     def get(self, book_id, width, height):
         imgPath = m.Book.query.filter_by(id=book_id).first().cover
         filename = '{}_thumbnail:{}:{}.{}'.format('.'.join(imgPath.split('.')[:-1]),
@@ -139,7 +138,6 @@ class Thumbnail(Resource):
                                                                       height))
 
 class Cover(Resource):
-    # @auth.login_required
     def get(self, book_id):
         imgPath = m.Book.query.filter_by(id=book_id).first().cover
         return send_from_directory('/'.join(imgPath.split('/')[:-1]),
@@ -196,7 +194,6 @@ class AuthorOfBookByTitle(Resource):
         return jsonify(result)
 
 class AuthorTumbnail(Resource):
-    # @auth.login_required
     def get(self, author_id, width, height):
         imgPath = m.Author.query.filter_by(id=author_id).first().profileImage
         filename = '{}_thumbnail:{}:{}.{}'.format('.'.join(imgPath.split('.')[:-1]),

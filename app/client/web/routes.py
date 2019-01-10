@@ -42,17 +42,21 @@ def index():
 
 
 @app.route('/Book/id:<book_id>/chapter:<chapter_id>/stream')
+@login_required
 def TrackStream(book_id, chapter_id):
     return 'http://{}:5002/Book/{}/{}/stream'.format(host_ip, book_id,
                                                      chapter_id)
 
 
-@app.route('/Book/id:<book_id>/uid:<user_id>/currentTrack')
+@app.route('/Book/id:<book_id>/currentTrack')
 @login_required
-def CurrentUserTrack(book_id, user_id):
+def CurrentUserTrack(book_id):
+    print('Getting Track Info for book {}'.format(book_id))
     URI = 'http://{}:5002/Book/{}/user/{}/track'.format(host_ip, book_id,
-                                                        user_id)
+                                                        current_user.id)
+
     response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
+    print('Retrived Track Info: ', response.text)
     return response.text
 
 
@@ -79,12 +83,13 @@ def getAuthorPortaitURI(author_id, width, height):
                                                                       height)
 
 
-@app.route('/Book/id:<book_id>/uid:<user_id>/currentTrack', methods=['POST'])
+@app.route('/Book/id:<book_id>/currentTrack', methods=['POST'])
 @login_required
-def updateUserBookInfo(book_id, user_id):
+def updateUserBookInfo(book_id):
     jsonPUT = request.get_json()
+    print('Posting position for book {}'.format(book_id))
     URI = 'http://{}:5002/Book/{}/user/{}/track'.format(host_ip, book_id,
-                                                        user_id)
+                                                        current_user.id)
     requests.post(URI, data=jsonPUT, auth=HTTPBasicAuth(current_user.token,
                                                         null))
     return '/C'
