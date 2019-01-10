@@ -1,9 +1,11 @@
 from app import db
-from app import login
+from app import app
 from flask_login import UserMixin
 from .association import associationTables
 from .serializableBase import SerializableModel
 from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import (TimedJSONWebSignatureSerializer
+                          as Serializer, BadSignature, SignatureExpired)
 
 class Track(SerializableModel):
     __tablename__ = 'track'
@@ -193,7 +195,7 @@ class UserBook(SerializableModel):
     def __repr__(self):
         return "<book {} user {}>".format(self.bookID, self.userID)
 
-class User(UserMixin, SerializableModel):
+class User(SerializableModel):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String(128), index=True, nullable=False)
@@ -206,6 +208,8 @@ class User(UserMixin, SerializableModel):
     passwordHash = db.Column(db.String(1024))
     lastDeviceID = db.Column(db.Integer, db.ForeignKey('device.id'),
                            nullable=False)
+    authenticated = db.Column(db.Boolean, default=False)
+    api_key = db.Column(db.String(128), unique=True)
 
     books = db.relationship(Book, secondary="user_book",
                            lazy='subquery',
@@ -237,6 +241,18 @@ class User(UserMixin, SerializableModel):
     def check_password(self, password):
         return check_password_hash(self.passwordHash, password)
 
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+    def generate_auth_token(self, expiration = 600):
+        s = Serializer(app.config['SECRET_KEY'], expires_in = expiration)
+        return s.dumps({ 'id': self.id })
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None # valid token, but expired
+        except BadSignature:
+            return None # invalid token
+        user = User.query.get(data['id'])
+        return user

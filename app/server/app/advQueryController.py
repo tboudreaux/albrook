@@ -1,4 +1,3 @@
-from app import db
 from datetime import datetime
 import app.models as m
 
@@ -33,12 +32,11 @@ class userBookServer:
             r.lastOpened = datetime.now()
             r.lastChapter = currentTrack
             r.lastLocation = currentLocation
+            return None
         else:
             newUserBookRecord = m.UserBook(userID=user_id, bookID=book_id)
             newUserBookRecord.lastOpened = datetime.now()
             newUserBookRecord.lastChapter = currentTrack
             newUserBookRecord.lastLocation = currentLocation
 
-            db.session.add(newUserBookRecord)
-
-        db.session.commit()
+            return newUserBookRecord

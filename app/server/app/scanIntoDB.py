@@ -214,6 +214,8 @@ def SampleDataScan():
     UserBookLink = UserBook(user=Thomas, book=Artemis,
                             lastOpened=datetime.now(), lastLocation=45.3,
                             lastChapter=1)
+    Thomas.set_password('Winter45')
+    Thomas.api_key = 'testkey'
     db.session.add(ThomasComputer)
     db.session.add(Thomas)
     db.session.add(UserBookLink)
