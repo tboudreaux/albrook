@@ -17,8 +17,8 @@ def books():
     json_data = json.loads(response.text)
     books = json_data['data']
     numBooks = len(books)
-    titles = [x['Title'] for x in books]
-    descs = [x['Description'].replace('\\n', '<br>') for x in books]
+    titles = [x['title'] for x in books]
+    descs = [x['description'].replace('\\n', '<br>') for x in books]
     authors = [x['Authors'] for x in books]
     narrators = [x['Narrators'] for x in books]
 
@@ -59,3 +59,11 @@ def updateUserBookInfo(book_id, user_id):
     jsonPUT = request.get_json()
     requests.post('http://{}:5002/Book/{}/user/{}/track'.format(host_ip, book_id, user_id), data=jsonPUT)
     return '/C'
+
+
+@app.route("/User/login", methods=['POST'])
+def userLogin():
+    uname = request.form.get('uname')
+    psw = request.form.get('psw')
+
+    return 'userID'

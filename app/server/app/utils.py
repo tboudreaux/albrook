@@ -1,5 +1,14 @@
 import re
 
+def file_is_of_type(filePath, fileType):
+    if filePath.split('.')[1] == fileType:
+        return True
+    else:
+        return False
+
+def get_file_type(filePath):
+    return filePath.split('.')[-1]
+
 def tryint(s):
     try:
         return int(s)
@@ -17,9 +26,3 @@ def sort_nicely(l):
     """
     l.sort(key=alphanum_key)
     return l
-
-
-def clear_lists(l1, l2):
-    newl1 = [x for x in l1 if x != None]
-    newl2 = [x for i, x in enumerate(l2) if l1[i] != None]
-    return newl1, newl2

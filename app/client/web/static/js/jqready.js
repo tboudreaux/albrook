@@ -49,6 +49,11 @@ jQuery(function(){
         var playButton = $("#togglePlay")
         playButton.html("<i class=\"fa fa-pause\" aria-hidden=\"true\"></i>")
 
+
+        console.log('HERE');
+        var coverIMG = $("#playingImage");
+        coverIMG.attr("src", getCoverURI(playerState.getPlayingBook(), 200, 200));
+
       }, false);
     }
 });
@@ -93,15 +98,8 @@ jQuery(function(){
 });
 
 jQuery(function(){
-  // var progressSlider = $("#progressSlider");
-  document.getElementById('progressSlider').addEventListener('mousedown', mouseDown, false);
-  window.addEventListener('mouseup', mouseUp, false);
-});
-
-jQuery(function(){
   var progress = $("#shadowProgress");
   progress.click(function(e){
-    console.log('clicked');
     var offsetX = $(this).offset().left
     var posX = e.pageX - offsetX
     var totalWidth = progress.width();

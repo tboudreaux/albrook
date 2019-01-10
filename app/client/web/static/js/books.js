@@ -161,23 +161,23 @@ function smartInfoShow(e, prevPanel, hideOveride, Hide){
           Hide = false;
         }
     }
-    
+
     toggleinfoPane(info, panelNum, Hide);
     return {"panelNum": panelNum, "Hide": Hide};
 }
 
 function showAuthorInfo(authorName){
     authorInfo = getAuthorInfo(authorName);
-    authorName = authorInfo['data'][0].FirstName + " " + authorInfo['data'][0].LastName;
-    if (authorInfo['data'][0].MiddleName !== null){
-        authorName = authorName.replace(' ', " " + authorInfo['data'][0].MiddleName + " ") ;
+    authorName = authorInfo['data'][0].firstName + " " + authorInfo['data'][0].lastName;
+    if (authorInfo['data'][0].middleName !== null){
+        authorName = authorName.replace(' ', " " + authorInfo['data'][0].middleName + " ") ;
     }
 
     $("#infoTitle").text(authorName);
-    $("#infoAuthor").text(authorInfo['data'][0].Nationality);
+    $("#infoAuthor").text(authorInfo['data'][0].nationality);
     $("#infoNarrator").text("");
-    $("#infoDesc").text(authorInfo['data'][0].Biography);
+    $("#infoDesc").text(authorInfo['data'][0].biography);
 
-    var portraitURI = getAuthorPortaitURI(authorInfo['data'][0].UID, 300, 300);
+    var portraitURI = getAuthorPortaitURI(authorInfo['data'][0]['id'], 300, 300);
     document.getElementById('infoPhoto').src = portraitURI;
 }

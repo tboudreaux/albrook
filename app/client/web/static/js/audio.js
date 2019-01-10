@@ -33,13 +33,13 @@ function initAudioPlay(book_id, user_id){
     var currentTrackInfo = getCurrentTrackInfo(book_id, user_id);
 
     if(currentTrackInfo['data'].length == 1){
-        var currentChapter = currentTrackInfo['data'][0]['LastChapter'];
-        var lastLocation = currentTrackInfo['data'][0]['LastLocation'];
+        var currentChapter = currentTrackInfo['data'][0]['lastChapter'];
+        var lastLocation = currentTrackInfo['data'][0]['lastLocation'];
 
     } else{
         currentChapter = 0;
         lastLocation = "0";
-    }      
+    }
 
     updateCurrentPlayingInfo(info.titles[book_id-1], info.authors[book_id-1], currentChapter+1);
 
@@ -98,16 +98,15 @@ var advance = function() {
     duration = audio.duration;
     percentCompetedReadout = document.getElementById("percentCompeted");
     var progress = document.getElementById("progress");
-    var slider = document.getElementById("progressSlider");
     increment = 10/duration
     percent = Math.min(increment * audio.currentTime * 10, 100);
     progress.style.width = percent+'%'
-    let durationFormated = fmtMSS(duration);
-    let completedFormated = fmtMSS(audio.currentTime);
-    percentCompetedReadout.innerText = completedFormated.slice(0, 5) + "/" + durationFormated.slice(0, 5);
-
-    slider.style.position = 'absolute';
-    slider.style.left = percent+ '%';
+    // let durationFormated = fmtMSS(duration);
+    let durationString = duration.toString();
+    let durationFormated = durationString.toHHMMSS()
+    let completedString = audio.currentTime.toString();
+    let completedFormated = completedString.toHHMMSS();
+    percentCompetedReadout.innerText = completedFormated + "/" + durationFormated;
 }
 
 
@@ -126,16 +125,8 @@ function togglePlay (e) {
   }
 }
 
-function handelMove(e){
-    var slider = document.getElementById('progressSlider');
-    if (pageState.playing === true){
-        slider.style.position = 'absolute';
-        slider.style.left = e.clientX + 'px';
-    }
-}
 
 function updateTrackPosition(fraction){
     audio = document.getElementById("Player");
     audio.currentTime = fraction*audio.duration;
 }
-
