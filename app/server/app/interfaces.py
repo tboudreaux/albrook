@@ -123,7 +123,7 @@ class Book(Resource):
         return jsonify(result)
 
 class Thumbnail(Resource):
-    @auth.login_required
+    # @auth.login_required
     def get(self, book_id, width, height):
         imgPath = m.Book.query.filter_by(id=book_id).first().cover
         filename = '{}_thumbnail:{}:{}.{}'.format('.'.join(imgPath.split('.')[:-1]),
@@ -139,7 +139,7 @@ class Thumbnail(Resource):
                                                                       height))
 
 class Cover(Resource):
-    @auth.login_required
+    # @auth.login_required
     def get(self, book_id):
         imgPath = m.Book.query.filter_by(id=book_id).first().cover
         return send_from_directory('/'.join(imgPath.split('/')[:-1]),
@@ -196,7 +196,7 @@ class AuthorOfBookByTitle(Resource):
         return jsonify(result)
 
 class AuthorTumbnail(Resource):
-    @auth.login_required
+    # @auth.login_required
     def get(self, author_id, width, height):
         imgPath = m.Author.query.filter_by(id=author_id).first().profileImage
         filename = '{}_thumbnail:{}:{}.{}'.format('.'.join(imgPath.split('.')[:-1]),
@@ -281,7 +281,6 @@ class TrackInfo(Resource):
         return jsonify(track)
 
 class TrackStream(Resource):
-    @auth.login_required
     def get(self, book_id, chapter_id):
         track = trackServer.getChapter(book_id, chapter_id)
         path = track['data'][0]['filePath']
@@ -308,8 +307,14 @@ class GenerateToken(Resource):
     def get(user_name, username):
         print(username)
         user = m.User.query.filter_by(username=username).first()
-        token = user.generate_auth_token(expiration=60)
+        token = user.generate_auth_token()
         return jsonify({ 'token': token.decode('ascii') })
+
+class UserInfo(Resource):
+    @auth.login_required
+    def get(user_name, username):
+        user = m.User.query.filter_by(username=username).first()
+        return jsonify(user.to_dict())
 
 
 api.add_resource(Authors, '/Authors')                         # Get all Authors
@@ -340,6 +345,7 @@ api.add_resource(TrackInfo, '/Book/<book_id>/<chapter_id>/info')
 api.add_resource(TrackStream, '/Book/<book_id>/<chapter_id>/stream')
 api.add_resource(CurrentTrack, '/Book/<book_id>/user/<user_id>/track')
 api.add_resource(GenerateToken, '/User/<username>/token')
+api.add_resource(UserInfo, '/User/<username>/info')
 
 
 if __name__ == '__main__':

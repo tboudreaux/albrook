@@ -77,7 +77,7 @@ jQuery(function(){
     infoText.fadeIn("slow");
     pageState.displayingInfo = "author";
   });
-    
+
 });
 
 jQuery(function(){
@@ -106,3 +106,10 @@ jQuery(function(){
     updateTrackPosition(posX/totalWidth);
   });
 });
+
+jQuery(function(){
+  var logOut = $("#logOut");
+  logOut.click(function(e){
+    doLogout();
+  })
+})

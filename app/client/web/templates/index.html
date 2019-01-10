@@ -23,9 +23,13 @@
 <script type="text/javascript" src="{{ url_for('static',filename='js/POST_api_calls.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/audio.js') }}"></script>
 
+{% if current_user.is_authenticated %}
+  <script type="text/javascript">
+    var info = {{ info | tojson }};
+    var numBooks = {{ numBooks }};
+  </script>
+{% endif %}
 <script type="text/javascript">
-  var info = {{ info | tojson }};
-  var numBooks = {{ numBooks }};
   var prevPanel = -1;
   var Hide = true;
 </script>
@@ -33,11 +37,17 @@
 <html>
     <div id="infoBar">
       <div id="leftControls">
-        <button id="homeButton" class="navigationButton"><i class="fa fa-home" aria-hidden="true"></i>
-        </button>
+        <div class="row">
+          <div class="tri-column">
+            <button id="homeButton" class="navigationButton"><i class="fa fa-home" aria-hidden="true"></i></button>
+          </div>
+          <div class="tri-column">
+            <button id="logOut" class="navigationButton" title="Log out {{ current_user.username }}"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+          </div>
+        </div>
       </div>
       <div id="rightControls">
-        <input type="text" placeholder="Search.." id="search" style="width: 50%">
+        <!-- <input type="text" placeholder="Search.." id="search" style="width: 50%"> -->
       </div>
     </div>
 
@@ -62,6 +72,14 @@
         </div>
       </div>
 
+      { % if forceLogin % }
+        <script type="text/javascript">
+          $(window).on('load',function(){
+              $('#ex1').modal('show');
+          });
+        </script>
+      { % endif % }
+
       <!-- Modal Dialouge -->
       <div id="ex1" class="modal">
         <form action="/User/login" method="post">
@@ -75,6 +93,7 @@
         </form>
       </div>
 
+    {% if current_user.is_authenticated %}
       <div class="gallery">
         <div class="gelement" id="bookGallery">
           <ul id="rig">
@@ -113,13 +132,14 @@
           </div>
         </div>
       </div>
+    {% endif %}
 
       <br>
       <br>
 
       <div id="playPanelShowControlContainer">
         <button id="playPanelShowControl"><i class="fa fa-arrow-up"></i></button>
-      </div> 
+      </div>
       <div id="playPanel" class="bottomSlide">
         <div class="progress" id="progress"></div>
         <div id="shadowProgress"></div>

@@ -23,12 +23,18 @@ function getCoverURI(indexNum, width, height){
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "/Book/id:"+indexNum+"/cover/width:"+width+"/height:"+height , false );
     xmlHttp.send( null );
-    return xmlHttp.responseText; 
+    return xmlHttp.responseText;
 }
 
 function getAuthorPortaitURI(authorID, width, height){
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "/Author/id:"+authorID+"/portrait/width:"+width+"/height:"+height , false );
     xmlHttp.send( null );
-    return xmlHttp.responseText; 
+    return xmlHttp.responseText;
+}
+
+function doLogout(){
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open("GET", "/User/logout")
+  xmlHttp.send( null );
 }
