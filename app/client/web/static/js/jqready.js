@@ -107,9 +107,8 @@ jQuery(function(){
   });
 });
 
-jQuery(function(){
-  var logOut = $("#logOut");
-  logOut.click(function(e){
-    doLogout();
-  })
-})
+$(window).on('load',function(){
+  if (getLoggedInStatus() === false){
+    $('#ex1').modal('show');
+  }
+});

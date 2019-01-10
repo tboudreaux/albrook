@@ -42,7 +42,7 @@
             <button id="homeButton" class="navigationButton"><i class="fa fa-home" aria-hidden="true"></i></button>
           </div>
           <div class="tri-column">
-            <button id="logOut" class="navigationButton" title="Log out {{ current_user.username }}"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+            <a id="logOut" class="navigationButton" title="Log out {{ current_user.username }}" href="/User/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
           </div>
         </div>
       </div>
@@ -71,14 +71,6 @@
           <!-- Side bar toggle line drawn here -->
         </div>
       </div>
-
-      { % if forceLogin % }
-        <script type="text/javascript">
-          $(window).on('load',function(){
-              $('#ex1').modal('show');
-          });
-        </script>
-      { % endif % }
 
       <!-- Modal Dialouge -->
       <div id="ex1" class="modal">

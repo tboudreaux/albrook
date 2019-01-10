@@ -16,18 +16,25 @@ def index():
     URI = 'http://{}:5002/Books'.format(host_ip)
     if current_user.is_authenticated:
         response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
-        json_data = json.loads(response.text)
-        books = json_data['data']
-        numBooks = len(books)
-        titles = [x['title'] for x in books]
-        descs = [x['description'].replace('\\n', '<br>') for x in books]
-        authors = [x['Authors'] for x in books]
-        narrators = [x['Narrators'] for x in books]
+        if response.text != "Unauthorized Access":
+            json_data = json.loads(response.text)
+            books = json_data['data']
+            numBooks = len(books)
+            titles = [x['title'] for x in books]
+            descs = [x['description'].replace('\\n', '<br>') for x in books]
+            authors = [x['Authors'] for x in books]
+            narrators = [x['Narrators'] for x in books]
 
-        info = {"titles": titles, "descs": descs, "authors": authors,
-                "narrators": narrators}
-        forceLogin = False
+            info = {"titles": titles, "descs": descs, "authors": authors,
+                    "narrators": narrators}
+            forceLogin = False
+        else:
+            print('Session Timed Out')
+            logout_user()
+            info = {}
+            forceLogin = True
     else:
+        print('Not Logged In')
         info = {}
         forceLogin = True
 
@@ -93,8 +100,14 @@ def userLogin():
     return redirect(url_for('index'))
 
 
-@app.route("/User/logout", methods=['GET'])
+@app.route("/User/logout")
 @login_required
 def userLogout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route("/User/loggedin", methods=['GET'])
+def logged_in():
+    print('HERE')
+    print(str(current_user.is_authenticated))
+    return str(current_user.is_authenticated)

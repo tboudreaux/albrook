@@ -33,8 +33,10 @@ function getAuthorPortaitURI(authorID, width, height){
     return xmlHttp.responseText;
 }
 
-function doLogout(){
+function getLoggedInStatus(){
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open("GET", "/User/logout")
+  xmlHttp.open( "GET", "/User/loggedin", false );
   xmlHttp.send( null );
+  let loggedInStatus = xmlHttp.responseText;
+  return loggedInStatus == "True";
 }
