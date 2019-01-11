@@ -8,6 +8,8 @@ from datetime import datetime
 from datetime import timedelta
 from requests.auth import HTTPBasicAuth
 
+null = 'null'
+
 def UserInDB(username):
     user = m.User.query.filter_by(username=username).first()
     if user:
@@ -15,9 +17,13 @@ def UserInDB(username):
     else:
         return False
 
-def get_user_token(user, psw):
+def get_user_token(user, psw, token=None):
+    if token:
+        authID = token
+    else:
+        authID = user
     request = requests.get('http://{}:5002/User/{}/token'.format(host_ip, user),
-                            auth=HTTPBasicAuth(user, psw))
+                            auth=HTTPBasicAuth(authID, psw))
     try:
         requestJSON = json.loads(request.text)
         return requestJSON['token']
@@ -35,6 +41,7 @@ def load_user_info(user):
 
 def addUserToLocalDB(username, psw, f=False):
     if not UserInDB(username):
+        print("username and password: ", username, psw)
         token = get_user_token(username, psw)
         if token != 'NO_TOKEN':
             newUser = m.User()
@@ -46,14 +53,29 @@ def addUserToLocalDB(username, psw, f=False):
             db.session.commit()
             return True
     else:
+        return renewUserToken(username, psw)
+    return False
+
+
+def renewUserToken(username, psw):
+    if UserInDB(username):
         user = m.User.query.filter_by(username=username).first()
-        if datetime.now() > user.tokenLeaseStart + timedelta(seconds=450) or f:
-            token = get_user_token(username, psw)
+        if datetime.now() < user.tokenLeaseStart + timedeta(seconds=550):
+            # Renew token with token if previous token lease is valid
+            # does not need password
+            token = get_user_token(user.username, '', token=user.token)
             if token != 'NO_TOKEN':
                 user.token = token
                 user.tokenLeaseStart = datetime.now()
                 db.session.commit()
                 return True
         else:
-            return True
+            # renew token with username and password, if previous token
+            # lease is no longer valid
+            token = get_user_token(username, psw)
+            if token != 'NO_TOKEN':
+                user.token = token
+                user.tokenLeaseStart = datetime.now()
+                db.session.commit()
+                return True
     return False

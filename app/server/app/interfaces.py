@@ -5,12 +5,14 @@ from flask_jsonpify import jsonify
 from PIL import Image
 import json
 import os
-from .advQueryController import trackServer, userBookServer
+from app.advQueryController import trackServer, userBookServer
 from flask_login import current_user, login_user, login_required
 from app import db
 from app import auth
+import names
 
 from app import app
+from app.utils import conditional_auth
 
 api = Api(app)
 
@@ -301,7 +303,7 @@ class CurrentTrack(Resource):
 
 class GenerateToken(Resource):
     @auth.login_required
-    def get(user_name, username):
+    def get(self, username):
         print(username)
         user = m.User.query.filter_by(username=username).first()
         token = user.generate_auth_token()
@@ -309,9 +311,48 @@ class GenerateToken(Resource):
 
 class UserInfo(Resource):
     @auth.login_required
-    def get(user_name, username):
+    def get(self, username):
         user = m.User.query.filter_by(username=username).first()
         return jsonify(user.to_dict())
+
+class UserExists(Resource):
+    def get(self, username):
+        exists = m.User.query.filter_by(username=username).first()
+        return jsonify({"data": [{"exists": exists==True}]})
+
+# TODO -> Get conditional decorator to Work
+#         so that auth is requred always
+#         except when 0 users are registered
+class RegisterUser(Resource):
+    # @conditional_auth
+    def post(self):
+        newUser = m.User()
+        newUser.username = request.form['username']
+        newUser.firstName = request.form['firstname']
+        newUser.middleName = request.form['middlename']
+        newUser.lastName = request.form['lastname']
+        newUser.email = request.form['email']
+        newUser.set_password(request.form['password'])
+
+        newDevice = m.Device()
+        newDevice.deviceName = names.get_last_name()
+        newDevice.lastIP = request.remote_addr
+        newDevice.lastConnect = 'now'
+        newDevice.deviceType = request.form['platform']
+
+        db.session.add(newDevice)
+        dses= m.Device.query.filter_by(deviceName=newDevice.deviceName).first()
+
+        newUser.lastDeviceID = dses.id
+
+        db.session.add(newUser)
+        db.session.commit()
+        return jsonify({'data': [{"registered": newUser.username}]})
+
+class UserNumber(Resource):
+    def get(self):
+        users = len(m.User.query.all())
+        return jsonify({'data': [{'number': users}]})
 
 
 api.add_resource(Authors, '/Authors')                         # Get all Authors
@@ -343,6 +384,9 @@ api.add_resource(TrackStream, '/Book/<book_id>/<chapter_id>/stream')
 api.add_resource(CurrentTrack, '/Book/<book_id>/user/<user_id>/track')
 api.add_resource(GenerateToken, '/User/<username>/token')
 api.add_resource(UserInfo, '/User/<username>/info')
+api.add_resource(UserExists, '/User/<username>/exists')
+api.add_resource(RegisterUser, '/User/register/')
+api.add_resource(UserNumber, '/User/number')
 
 
 if __name__ == '__main__':

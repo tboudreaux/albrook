@@ -121,7 +121,7 @@ class Genre(SerializableModel):
 class Device(SerializableModel):
     __tablename__ = 'device'
     id = db.Column(db.Integer, primary_key=True)
-    deviceName = db.Column(db.String(32), nullable=False)
+    deviceName = db.Column(db.String(32), nullable=False, unique=True)
     lastIP = db.Column(db.String(32), nullable=False)
     lastConnect = db.Column(db.String(19), nullable=False)
     deviceType = db.Column(db.String(32))

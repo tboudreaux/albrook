@@ -5,40 +5,26 @@ from web.models import User
 import requests
 import json
 from requests.auth import HTTPBasicAuth
-from .auth import addUserToLocalDB
+from web.auth import addUserToLocalDB
+from web.utils import run_normal_login, run_first_time_setup
+from web.utils import check_first_time_setup
+from web.utils import register_new_user
+import platform
 
 null = 'null'
 
-# TODO -> get the modal to disaper when logged in
-# TODO -> Get authenticated audio working
+# TODO -> fix the issue where unique constraints are not satisfied
+#         in the client user DB (should still manifest)
+#         issue should be (i think) due to not syncing the DB proper with
+#         the server DB
+
 @app.route('/')
 def index():
-    URI = 'http://{}:5002/Books'.format(host_ip)
-    if current_user.is_authenticated:
-        response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
-        if response.text != "Unauthorized Access":
-            json_data = json.loads(response.text)
-            books = json_data['data']
-            numBooks = len(books)
-            titles = [x['title'] for x in books]
-            descs = [x['description'].replace('\\n', '<br>') for x in books]
-            authors = [x['Authors'] for x in books]
-            narrators = [x['Narrators'] for x in books]
-
-            info = {"titles": titles, "descs": descs, "authors": authors,
-                    "narrators": narrators}
-            forceLogin = False
-        else:
-            print('Session Timed Out')
-            logout_user()
-            info = {}
-            forceLogin = True
+    if check_first_time_setup():
+        return run_first_time_setup()
     else:
-        print('Not Logged In')
-        info = {}
-        forceLogin = True
+        return run_normal_login()
 
-    return render_template('index.html', **locals())
 
 
 @app.route('/Book/id:<book_id>/chapter:<chapter_id>/stream')
@@ -113,6 +99,13 @@ def userLogout():
 
 @app.route("/User/loggedin", methods=['GET'])
 def logged_in():
-    print('HERE')
-    print(str(current_user.is_authenticated))
     return str(current_user.is_authenticated)
+
+
+@app.route("/User/register", methods=['GET', 'POST'])
+def userRegister():
+    form = request.form
+    newUserData = form.to_dict(flat=False)
+    register_new_user(**newUserData)
+
+    return redirect('/')

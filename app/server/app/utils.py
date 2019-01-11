@@ -1,4 +1,6 @@
 import re
+from app import auth
+from app.models import User
 
 def file_is_of_type(filePath, fileType):
     if filePath.split('.')[1] == fileType:
@@ -26,3 +28,11 @@ def sort_nicely(l):
     """
     l.sort(key=alphanum_key)
     return l
+
+
+def conditional_auth(dec):
+    def decorator(func):
+        if len(User.query.all()) == 0:
+            return func
+        return auth.login_required(func)
+    return decorator

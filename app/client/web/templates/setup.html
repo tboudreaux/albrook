@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+  <head>
+    <title>Albrook Setup</title>
+    <!-- Style Sheets -->
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css">
+
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/setupStyle.css') }}">
+
+    <!-- External Javascript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  </head>
+
+  <body>
+    <div id="mainContainer">
+      <div id="infoBox">
+        <div class="infoHead">
+          <h1 id="Title"> Welcome To Albrook! </h1>
+        </div>
+        <div id="shadow" class="infoHead"></div>
+
+        <div class="infoContent">
+          <div id="formContainer">
+            <form action="/User/register" method="post">
+              <div class="row">
+                <div class="tri-column">
+                  First Name<br>
+                  <input type="text" name="firstname"><br>
+                </div>
+                <div class="tri-column">
+                  Middle Name<br>
+                  <input type="text" name="middlename"><br>
+                </div>
+                <div class="tri-column">
+                  Last Name<br>
+                  <input type="text" name="lastname"><br>
+                </div>
+              </div>
+              <div class="row" style="padding-top: 25px;">
+                <div class="tri-column">
+                  Username<br>
+                  <input type="text" name="username"><br>
+                </div>
+                <div class="tri-column"></div>
+                <div class="tri-column">
+                  Password<br>
+                  <input type="password" name="password"><br>
+                </div>
+              </div>
+              <div class="row" style="padding-top: 25px;">
+                <div class="s-column">
+                  Email<br>
+                  <input type="text" name="email" style="width: 100%;"><br>
+                </div>
+              </div>
+              <div class="row" style="padding-top: 25px;">
+                <div class="tri-column"></div>
+                <div class="tri-column"></div>
+                <div class="tri-column">
+                  <input type="submit" name="submit" style="text-align: left;"><br>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div id="infoShadow" class="infoContent"></div>
+      </div>
+    </div>
+  </body>
+</html>
