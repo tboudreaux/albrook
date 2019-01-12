@@ -1,33 +1,71 @@
-function toggleinfoPane(info, panelNum, Hide) {
-    var indexNum = panelNum - 1;
-    $("#infoTitle").text(info.titles[indexNum]);
-    $("#infoAuthor").text(info.authors[indexNum]);
-    $("#infoNarrator").text(info.narrators[indexNum]);
-    $("#infoDesc").text(info.descs[indexNum]);
+function toggleinfoPane(id, Hide) {
+  let page = getActivePageID();
 
-    var coverURI = getCoverURI(panelNum, 300, 300);
-    document.getElementById('infoPhoto').src = coverURI;
+  if (page == "bookPage"){
+    setBookInfo(id);
+    bookSelector.ChangeBook(id);
+  }else if (page == "authorPage") {
+    setAuthorInfo(id);
+  }
 
-    bookSelector.ChangeBook(indexNum);
-    {
-        var infoPane = $('#infoPane');
-        if (!infoPane.hasClass('visible')){
-            pageState.infoState = true;
-            infoPane.animate({"left":"60vw"}, "slow").addClass('visible');
-            resizeBookRig();
-        }
-        else {
-            if (Hide === true){
-                pageState.infoState = false;
-                infoPane.animate({"left":"100%"}, "slow").removeClass('visible');
-                resizeBookRig();
-            }
-        }
-    };
+  var infoPane = $('#infoPane');
+  if (!infoPane.hasClass('visible')){
+    extendInfoPane();
+  }
+  else {
+    if (Hide === true){
+      retractInfoPane();
+    }
+  }
 }
 
-function resizeBookRig(){
-    var rig = $("#rig")
+function setBookInfo(book_id){
+  info = getBookInfo(book_id);
+  info = info['data'][0]
+  $("#infoTitle").text(info['title']);
+  $("#infoSecondaryA").text(info['Authors'].join(', '));
+  $("#infoSecondaryB").text(info['Narrators'].join(', '));
+  $("#infoBlock").text(info['description']);
+
+  var coverURI = getCoverURI(book_id, 300, 300);
+  document.getElementById('infoPhoto').src = coverURI;
+}
+
+function setAuthorInfo(author_id){
+  console.log('Author ID is: ' + author_id);
+  authorInfo = getAuthorInfo(author_id);
+  authorName = authorInfo['data'][0].firstName + " " + authorInfo['data'][0].lastName;
+  if (authorInfo['data'][0].middleName !== null){
+      authorName = authorName.replace(' ', " " + authorInfo['data'][0].middleName + " ") ;
+  }
+
+  $("#infoTitle").text(authorName);
+  $("#infoSecondaryA").text(authorInfo['data'][0].nationality);
+  $("#infoSecondaryB").text("");
+  $("#infoBlock").text(authorInfo['data'][0].biography);
+
+  var portraitURI = getAuthorPortaitURI(authorInfo['data'][0]['id'], 300, 300);
+  document.getElementById('infoPhoto').src = portraitURI;
+}
+
+function extendInfoPane(){
+  var infoPane = $('#infoPane');
+  pageState.infoState = true;
+  infoPane.animate({"left":"60vw"}, "slow").addClass('visible');
+  resizeRig();
+}
+
+function retractInfoPane(){
+  var infoPane = $('#infoPane');
+  pageState.infoState = false;
+  infoPane.animate({"left":"100%"}, "slow").removeClass('visible');
+  resizeRig();
+}
+
+function resizeRig(nanimate){
+    let rigID = getActivePageID();
+    rigID = rigID.replace('Page', 'Rig')
+    var rig = $("#"+rigID)
     var leftMargin = "10vw";
     var rightMargin = "10vw";
 
@@ -39,7 +77,12 @@ function resizeBookRig(){
         leftMargin = "18vw";
     }
 
-    rig.animate({"margin-left":leftMargin, "margin-right":rightMargin}, "slow");
+    if (nanimate === true){
+      console.log('rig resizing')
+      rig.css({"margin-left":leftMargin, "margin-right":rightMargin});
+    }else{
+      rig.animate({"margin-left":leftMargin, "margin-right":rightMargin}, "slow");
+    }
 }
 
 function GetPanelNumber(path){
@@ -50,7 +93,7 @@ function GetPanelNumber(path){
             var panelNum = clickID.split("_")[2];
         }
     }
-    return panelNum;
+    return Number(panelNum);
 }
 
 
@@ -134,7 +177,7 @@ function extendSideBar(){
 
     sideBar.animate({"left":"0vw"}, "slow").addClass('visible');
     sideBarToggle.animate({"left":"15vw"}, "slow")
-    resizeBookRig()
+    resizeRig();
 }
 
 function retractSideBar(){
@@ -144,7 +187,7 @@ function retractSideBar(){
 
     sideBar.animate({"left":"-15vw"}, "slow").removeClass('visible');
     sideBarToggle.animate({"left":"0"}, "slow")
-    resizeBookRig()
+    resizeRig();
 }
 
 function playPanelVisible(){
@@ -162,22 +205,6 @@ function smartInfoShow(e, prevPanel, hideOveride, Hide){
         }
     }
 
-    toggleinfoPane(info, panelNum, Hide);
+    toggleinfoPane(panelNum, Hide);
     return {"panelNum": panelNum, "Hide": Hide};
-}
-
-function showAuthorInfo(authorName){
-    authorInfo = getAuthorInfo(authorName);
-    authorName = authorInfo['data'][0].firstName + " " + authorInfo['data'][0].lastName;
-    if (authorInfo['data'][0].middleName !== null){
-        authorName = authorName.replace(' ', " " + authorInfo['data'][0].middleName + " ") ;
-    }
-
-    $("#infoTitle").text(authorName);
-    $("#infoAuthor").text(authorInfo['data'][0].nationality);
-    $("#infoNarrator").text("");
-    $("#infoDesc").text(authorInfo['data'][0].biography);
-
-    var portraitURI = getAuthorPortaitURI(authorInfo['data'][0]['id'], 300, 300);
-    document.getElementById('infoPhoto').src = portraitURI;
 }

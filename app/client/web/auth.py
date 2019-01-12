@@ -60,7 +60,7 @@ def addUserToLocalDB(username, psw, f=False):
 def renewUserToken(username, psw):
     if UserInDB(username):
         user = m.User.query.filter_by(username=username).first()
-        if datetime.now() < user.tokenLeaseStart + timedeta(seconds=550):
+        if datetime.now() < user.tokenLeaseStart + timedelta(seconds=550):
             # Renew token with token if previous token lease is valid
             # does not need password
             token = get_user_token(user.username, '', token=user.token)

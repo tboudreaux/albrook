@@ -32,7 +32,6 @@ def register_new_user(username, password, firstname, lastname,
 
 def check_first_time_setup():
     request = requests.get("http://{}:5002/User/number".format(host_ip))
-    print(request.text)
     requestJSON = json.loads(request.text)
     return requestJSON['data'][0]['number'] == 0
 
@@ -40,12 +39,13 @@ def run_first_time_setup():
     return render_template('setup.html', **locals())
 
 def run_normal_login():
-    URI = 'http://{}:5002/Books'.format(host_ip)
+    URIBooks = 'http://{}:5002/Books'.format(host_ip)
     if current_user.is_authenticated:
-        print('logged in')
-        response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
-        if response.text != "Unauthorized Access":
-            json_data = json.loads(response.text)
+        responseBooks = requests.get(URIBooks,
+                                     auth=HTTPBasicAuth(current_user.token,
+                                                        null))
+        if responseBooks.text != "Unauthorized Access":
+            json_data = json.loads(responseBooks.text)
             books = json_data['data']
             numBooks = len(books)
             titles = [x['title'] for x in books]
@@ -61,7 +61,6 @@ def run_normal_login():
             info = {}
             forceLogin = True
     else:
-        print('not logged in')
         info = {}
         forceLogin = True
 

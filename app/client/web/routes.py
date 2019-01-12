@@ -42,14 +42,50 @@ def CurrentUserTrack(book_id):
                                                         current_user.id)
 
     response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
-    print('Retrived Track Info: ', response.text)
     return response.text
 
+@app.route('/Book/id:<book_id>')
+@login_required
+def getBookInfo(book_id):
+    print('HERE')
+    URI = 'http://{}:5002/Book/{}'.format(host_ip, book_id)
+    print("URI is: ", URI)
+    response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
+    print('response is: ', response.text);
+    return response.text
+
+@app.route('/Books')
+@login_required
+def getBooks():
+    URI = 'http://{}:5002/Books'.format(host_ip)
+    response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
+    return response.text
+
+@app.route('/Books/number')
+@login_required
+def getNumBooks():
+    URI = 'http://{}:5002/TotalBooks'.format(host_ip)
+    response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
+    return response.text
+
+@app.route('/Authors')
+@login_required
+def getAuthors():
+    URI = 'http://{}:5002/Authors'.format(host_ip)
+    response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
+    return response.text
 
 @app.route('/Author/name:<author_name>')
 @login_required
-def getAuthorInfo(author_name):
+def getAuthorInfoName(author_name):
     URI = 'http://{}:5002/Author/name/{}'.format(host_ip, author_name)
+    response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
+    return response.text
+
+@app.route('/Author/<author_id>')
+@login_required
+def getAuthorInfo(author_id):
+    URI = 'http://{}:5002/Author/{}'.format(host_ip, author_id)
     response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
     return response.text
 
@@ -68,12 +104,10 @@ def getAuthorPortaitURI(author_id, width, height):
                                                                       width,
                                                                       height)
 
-
 @app.route('/Book/id:<book_id>/currentTrack', methods=['POST'])
 @login_required
 def updateUserBookInfo(book_id):
     jsonPUT = request.get_json()
-    print('Posting position for book {}'.format(book_id))
     URI = 'http://{}:5002/Book/{}/user/{}/track'.format(host_ip, book_id,
                                                         current_user.id)
     requests.post(URI, data=jsonPUT, auth=HTTPBasicAuth(current_user.token,

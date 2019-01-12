@@ -19,19 +19,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
     <script type="text/javascript" src="{{ url_for('static',filename='js/jqready.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static',filename='js/books.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/panes.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/utils.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/modal.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/GET_api_calls.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/POST_api_calls.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/audio.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/pages.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/auth.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/click_listner.js') }}"></script>
 
-    {% if current_user.is_authenticated %}
-      <script type="text/javascript">
-        var info = {{ info | tojson }};
-        var numBooks = {{ numBooks }};
-      </script>
-    {% endif %}
     <script type="text/javascript">
       var prevPanel = -1;
       var Hide = true;
@@ -45,6 +42,9 @@
         <div class="row">
           <div class="tri-column">
             <button id="homeButton" class="navigationButton"><i class="fa fa-home" aria-hidden="true"></i></button>
+          </div>
+          <div class="tri-column">
+              <a class="button navigationButton" href="#ex1" rel="modal:open"><i class="fa fa-user" aria-hidden="true"></i></a>
           </div>
           <div class="tri-column">
             <a id="logOut" class="navigationButton" title="Log out {{ current_user.username }}" href="/User/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
@@ -61,14 +61,14 @@
       <div id="sideBar" class="sideBar">
           <h4 style="color: white;">Navigation</h4>
           <hr>
-          <button class="navigationButton"><i class="fa fa-book" aria-hidden="true"></i>  Books</button><br>
-          <button class="navigationButton"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  Authors</button><br>
+          <button class="navigationButton" onclick="show('bookPage');"><i class="fa fa-book" aria-hidden="true"></i>  Books</button><br>
+          <button class="navigationButton" onclick="show('authorPage');"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  Authors</button><br>
           <button class="navigationButton"><i class="fa fa-archive" aria-hidden="true"></i>  Serise</button><br>
           <hr>
           <button class="navigationButton"><i class="fa fa-bookmark" aria-hidden="true"></i>  Bookmarks</button><br>
           <button class="navigationButton"><i class="fa fa-tags" aria-hidden="true"></i>  Tags</button><br>
           <hr>
-          <a class="button navigationButton" href="#ex1" rel="modal:open"><i class="fa fa-user" aria-hidden="true"></i>  Account</a><br>
+          <button class="navigationButton"><i class="fa fa-user" aria-hidden="true"></i>  Account</a><br>
           <button class="navigationButton"><i class="fa fa-cogs" aria-hidden="true"></i>  Setting</button><br>
       </div>
       <div id="sideBarToggle">
@@ -91,32 +91,39 @@
       </div>
 
     {% if current_user.is_authenticated %}
-      <div class="gallery">
-        <div class="gelement" id="bookGallery">
-          <ul id="rig">
-            {% for book in range(1, numBooks+1) %}
-              <li>
-                  <div class="rig-cell" id="book_panel_{{ book }}">
-                      <img class="rig-img" src="http://{{ request.host.split(':')[0] }}:5002/Book/{{ book }}/cover/thumbnail:500:500">
-                      <span class="rig-overlay"></span>
-                      <span class="rig-text" id="rig-text-{{ book }}"><i id="playIcon" class="fa fa-play-circle-o" aria-hidden="true"></i></span>
-                  </div>
-              </li>
-            {% endfor %}
+
+      <div id="MainGallery" class="gallery">
+        <!-- Book gallery -->
+        <div class="gelement page visible" id="bookPage">
+          <ul class="rig" id="bookRig">
+
+            <!-- Javascript will draw the book info here -->
+
           </ul>
         </div>
+
+          <!-- Author gallery -->
+        <div class="gelement page" id="authorPage" style="display: none;">
+          <ul class="rig" id="authorRig">
+
+              <!-- Javascript will draw the author info here -->
+
+          </ul>
+        </div>
+
+
         <div class="gelement" id="infoPane" style="max-height: 100%">
           <div id="infoText">
             <div id="infoHead">
               <div class="gallery" id="titleHeader">
                 <h1 style="font-family:Crimson Text; margin: 2%;"><a id="infoTitle">Book Title Here</a></h1>
               </div>
-              <h2 style="font-family:Crimson Text; margin: 2%;"><button id="infoAuthor" class="navigationButton" style="padding: 0;">Author Name</button></h2>
-              <h2 style="font-family:Crimson Text; margin: 2%;"><a id="infoNarrator">Narrator Name</a></h2>
+              <h2 style="font-family:Crimson Text; margin: 2%;"><button id="infoSecondaryA" class="navigationButton" style="padding: 0;">Author Name</button></h2>
+              <h2 style="font-family:Crimson Text; margin: 2%;"><a id="infoSecondaryB">Narrator Name</a></h2>
             </div>
             <!-- TODO => get text at bottom of div to fade -->
             <div style="height: 40%" id="infoContent">
-              <div style="max-height: 60%; overflow: auto; margin: 2%; font-family:Crimson Text;" id="infoDesc">
+              <div style="max-height: 60%; overflow: auto; margin: 2%; font-family:Crimson Text;" id="infoBlock">
                 Description of Book
               </div>
               <div id="infoPhotoContainer" style="height: 40%; width: 40%; position: relative; left: 2%;">
@@ -129,7 +136,6 @@
           </div>
         </div>
       </div>
-    {% endif %}
 
       <br>
       <br>
@@ -177,6 +183,7 @@
           </div>
         </div>
       </div>
+    {% endif %}
     </div>
   </body>
 </html>

@@ -1,7 +1,4 @@
-// TODO -> figure out why the lastLocation is being pushed incorrectly to the DB
-//          the same value is getting pushed for all books
-
-jQuery(function(){
+function audioSetup(){
     playerState.playing = false;
     var timer;
     var percent = 0;
@@ -10,15 +7,17 @@ jQuery(function(){
         pageState.playing = true;
         let bookID = playerState.getPlayingBook();
         window.timerID = setInterval(postAudioPosition, 10000, bookID);
-        console.log("Setting timer of ID ", window.timerID);
     });
     player.addEventListener("pause", function(){
         clearInterval(window.timerID);
         postAudioPosition(playerState.getPlayingBook());
         playerState.playing = false;
-        console.log("Clearing timer of ID ", window.timerID);
     });
-});
+
+    $("#Player").bind('ended', function(){
+        playNextChapter();
+    });
+}
 
 function initAudioPlay(book_id){
     var source = document.getElementById('audioSource');
@@ -27,10 +26,9 @@ function initAudioPlay(book_id){
     if (pageState.playing === true){
         postAudioPosition(playerState.getPlayingBook());
         clearInterval(window.timerID);
-        console.log("Clearing timer of ID ", window.timerID);
     }
 
-    var book_id = bookSelector.getBook()+1;
+    var book_id = bookSelector.getBook();
     var currentTrackInfo = getCurrentTrackInfo(book_id);
 
     if(currentTrackInfo['data'].length == 1){
@@ -42,7 +40,9 @@ function initAudioPlay(book_id){
         lastLocation = "0";
     }
 
-    updateCurrentPlayingInfo(info.titles[book_id-1], info.authors[book_id-1], currentChapter+1);
+    info = getBookInfo(book_id);
+    info = info['data'][0];
+    updateCurrentPlayingInfo(info['title'], info['Authors'].join(', '), currentChapter+1);
 
     source.src = getSyncStream(book_id, currentChapter);
 
@@ -58,7 +58,6 @@ function initAudioPlay(book_id){
 
 function playNextChapter(){
     clearInterval(window.timerID);
-    console.log("Clearing timer of ID ", window.timerID);
     // TODO -> Add extra field to UsersBooks: finished
     // TODO -> Add system for dealing with when book is finished
     var source = document.getElementById('audioSource');
@@ -74,12 +73,13 @@ function playNextChapter(){
     audio.play();
 
     postAudioPosition(playerState.getPlayingBook());
-    updateCurrentPlayingInfo(info.titles[book_id-1], info.authors[book_id-1], playerState.getCurrentChapter()+1);
+    info = getBookInfo(book_id-1);
+    info = info['data'][0];
+    updateCurrentPlayingInfo(info['title'], info['Authors'].join(', '), playerState.getCurrentChapter()+1);
 }
 
 function playPrevChapter(){
     clearInterval(window.timerID);
-    console.log("Clearing timer of ID ", window.timerID);
     // TODO -> Add extra field to UsersBooks: finished
     // TODO -> Add system for dealing with when book is finished
     var source = document.getElementById('audioSource');
@@ -95,8 +95,9 @@ function playPrevChapter(){
     audio.play();
 
     postAudioPosition(playerState.getPlayingBook());
-    updateCurrentPlayingInfo(info.titles[book_id-1], info.authors[book_id-1], playerState.getCurrentChapter()+1);
-}
+    info = getBookInfo(book_id-1);
+    info = info['data'][0];
+    updateCurrentPlayingInfo(info['title'], info['Authors'].join(', '), playerState.getCurrentChapter()+1);}
 
 var advance = function() {
     audio = document.getElementById("Player")
