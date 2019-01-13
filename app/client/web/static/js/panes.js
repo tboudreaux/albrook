@@ -21,31 +21,67 @@ function toggleinfoPane(id, Hide) {
 
 function setBookInfo(book_id){
   info = getBookInfo(book_id);
-  info = info['data'][0]
-  $("#infoTitle").text(info['title']);
-  $("#infoSecondaryA").text(info['Authors'].join(', '));
-  $("#infoSecondaryB").text(info['Narrators'].join(', '));
-  $("#infoBlock").text(info['description']);
+  if (info){
+    info = info['data'][0]
+    $("#infoTitle").text(info['title']);
+    $("#infoSecondaryA").text(info['Authors'].join(', '));
+    $("#infoSecondaryB").text(info['Narrators'].join(', '));
+    $("#infoBlock").text(info['description']);
 
-  var coverURI = getCoverURI(book_id, 300, 300);
-  document.getElementById('infoPhoto').src = coverURI;
+    // var coverURI = getCoverURI(book_id, 300, 300);
+    // document.getElementById('infoPhoto').src = coverURI;
+
+    let books = getBooksByAuthorByBook(book_id);
+    let infoPhotoRig = $("#infoPhotoRig");
+    infoPhotoRig.empty();
+    for (let book of books['data']){
+      coverURI = getCoverURI(book.id, 300, 300);
+      infoPhotoRig.append(`
+        <li>
+            <div class=\"rig-cell\" id=\"books_by_same_author_book_panel_`+ book.id +`\">
+              <img class=\"rig-img\" src=\"` + coverURI + `\">
+              <span class=\"rig-overlay\"></span>
+            </div>
+        </li>`);
+
+        let cell = $("#books_by_same_author_book_panel_"+book.id);
+        cell.click(function(e){
+          clickListner(e, "books_by_same_author_book_panel_", "book");
+        });
+    }
+  }
 }
 
 function setAuthorInfo(author_id){
-  console.log('Author ID is: ' + author_id);
   authorInfo = getAuthorInfo(author_id);
-  authorName = authorInfo['data'][0].firstName + " " + authorInfo['data'][0].lastName;
-  if (authorInfo['data'][0].middleName !== null){
-      authorName = authorName.replace(' ', " " + authorInfo['data'][0].middleName + " ") ;
+  if (authorInfo){
+    let authorName = authorInfo['data'][0].firstName + " " + authorInfo['data'][0].lastName;
+    if (authorInfo['data'][0].middleName !== null){
+        authorName = authorName.replace(' ', " " + authorInfo['data'][0].middleName + " ") ;
+    }
+
+    $("#infoTitle").text(authorName);
+    $("#infoSecondaryA").text(authorInfo['data'][0].nationality);
+    $("#infoSecondaryB").text("");
+    $("#infoBlock").text(authorInfo['data'][0].biography);
+
+    // var portraitURI = getAuthorPortaitURI(authorInfo['data'][0]['id'], 300, 300);
+    // document.getElementById('infoPhoto').src = portraitURI;
+
+    let books = getAuthorBooks(author_id);
+    let infoPhotoRig = $("#infoPhotoRig");
+    infoPhotoRig.empty();
+    for (let book of books['data']){
+      coverURI = getCoverURI(book.id, 300, 300);
+      infoPhotoRig.append(`
+        <li>
+            <div class=\"rig-cell\" id=\"book_panel_`+ book.id +`\">
+              <img class=\"rig-img\" src=\"` + coverURI + `\">
+              <span class=\"rig-overlay\"></span>
+            </div>
+        </li>`);
+    }
   }
-
-  $("#infoTitle").text(authorName);
-  $("#infoSecondaryA").text(authorInfo['data'][0].nationality);
-  $("#infoSecondaryB").text("");
-  $("#infoBlock").text(authorInfo['data'][0].biography);
-
-  var portraitURI = getAuthorPortaitURI(authorInfo['data'][0]['id'], 300, 300);
-  document.getElementById('infoPhoto').src = portraitURI;
 }
 
 function extendInfoPane(){
@@ -59,6 +95,8 @@ function retractInfoPane(){
   var infoPane = $('#infoPane');
   pageState.infoState = false;
   infoPane.animate({"left":"100%"}, "slow").removeClass('visible');
+  let infoPhotoRig = $("#infoPhotoRig");
+  infoPhotoRig.empty();
   resizeRig();
 }
 
@@ -78,7 +116,6 @@ function resizeRig(nanimate){
     }
 
     if (nanimate === true){
-      console.log('rig resizing')
       rig.css({"margin-left":leftMargin, "margin-right":rightMargin});
     }else{
       rig.animate({"margin-left":leftMargin, "margin-right":rightMargin}, "slow");
@@ -86,14 +123,14 @@ function resizeRig(nanimate){
 }
 
 function GetPanelNumber(path){
-    for (let child of path){
-        var clickClass = child.className;
-        if (clickClass == "rig-cell"){
-            var clickID = child.id;
-            var panelNum = clickID.split("_")[2];
-        }
-    }
-    return Number(panelNum);
+  for (let child of path){
+      var clickClass = child.className;
+      if (clickClass == "rig-cell"){
+          var clickID = child.id;
+          var panelNum = clickID.split("_").pop();
+      }
+  }
+  return Number(panelNum);
 }
 
 
@@ -195,16 +232,22 @@ function playPanelVisible(){
 }
 
 function smartInfoShow(e, prevPanel, hideOveride, Hide){
+  console.log('e is: ', e)
+  if (e.path){
     var panelNum = GetPanelNumber(e.path);
-    if (!hideOveride){
-        if (panelNum == prevPanel){
-          Hide = true;
-        }
-        else{
-          Hide = false;
-        }
-    }
+  }else{
+    var panelNum = GetPanelNumber(e.originalEvent.path);
+  }
+  console.log("PanelNum is: ", panelNum);
+  if (!hideOveride){
+      if (panelNum == prevPanel){
+        Hide = true;
+      }
+      else{
+        Hide = false;
+      }
+  }
 
-    toggleinfoPane(panelNum, Hide);
-    return {"panelNum": panelNum, "Hide": Hide};
+  toggleinfoPane(panelNum, Hide);
+  return {"panelNum": panelNum, "Hide": Hide};
 }

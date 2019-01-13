@@ -2,13 +2,13 @@ $(window).on('load',function(){
   if (getLoggedInStatus() === true){
     // Queue of things to do when authenticated
     drawBookGallery();
-    addBookClickListner();
+    // addBookClickListner();
     playPanelSetup();
     sideBarSetup();
     authorInfoSetup();
     audioSetup();
     drawAuthorGallery();
-    addAuthorClickListner()
+    // addAuthorClickListner()
   }
   else{
     logIn();

@@ -21,16 +21,12 @@ function getCurrentTrackInfo (book_id){
 }
 
 function getBookInfo(book_id){
-  console.log("A");
   if (getLoggedInStatus() === true){
-    console.log("B");
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "/Book/id:"+book_id, false );
     xmlHttp.send( null );
-    console.log(xmlHttp.responseText);
     return JSON.parse(xmlHttp.responseText);
   }else{
-    console.log("C");
     logIn();
   }
 }
@@ -68,6 +64,17 @@ function getAuthors(){
   }
 }
 
+function getBooksByAuthorByBook(book_id){
+  if (getLoggedInStatus() === true){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "/Books/author/"+book_id, false );
+    xmlHttp.send( null );
+    return JSON.parse(xmlHttp.responseText);
+  }else{
+    login()
+  }
+}
+
 
 function getAuthorInfoName(author_name){
   if (getLoggedInStatus() === true){
@@ -90,6 +97,18 @@ function getAuthorInfo(author_id){
     logIn();
   }
 }
+
+function getAuthorBooks(author_id){
+  if (getLoggedInStatus() === true){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "/Author/"+author_id+"/books", false );
+    xmlHttp.send( null );
+    return JSON.parse(xmlHttp.responseText);
+  }else{
+    logIn();
+  }
+}
+
 
 function getCoverURI(indexNum, width, height){
   if (getLoggedInStatus() === true){

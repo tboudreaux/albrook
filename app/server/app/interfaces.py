@@ -164,6 +164,16 @@ class BookTracks(Resource):
             result = nullReturn
         return jsonify(result)
 
+class otherBooksByAuthor(Resource):
+    @auth.login_required
+    def get(self, book_id):
+        authors = m.Book.query.filter_by(id=book_id).first().authors
+        books = list()
+        for author in authors:
+            books.extend(author.books)
+        result = {'data': [x.to_dict() for x in books]}
+        return jsonify(result)
+
 
 class AuthorBooks(Resource):
     @auth.login_required
@@ -210,7 +220,6 @@ class AuthorTumbnail(Resource):
                                    'portrait_thumbnail:{}:{}.jpg'.format(width,
                                                                         height))
 
-
 class Narrators(Resource):
     @auth.login_required
     def get(self):
@@ -224,7 +233,6 @@ class Narrator(Resource):
         r = m.Narrator.query.filter_by(id=narrator_id).all()
         result = {'data': [x.to_dict() for x in r]}
         return jsonify(result)
-
 
 class NarratorBooks(Resource):
     @auth.login_required
@@ -362,6 +370,7 @@ api.add_resource(AuthorOfBook, '/Author/book_id/<book_id>')
 api.add_resource(AuthorOfBookByTitle, '/Author/title/<book_title>')
 api.add_resource(AuthorByName, '/Author/name/<author_name>')
 api.add_resource(AuthorTumbnail, '/Author/<author_id>/portrait/thumbnail:<width>:<height>')
+api.add_resource(otherBooksByAuthor, '/Books/author/<book_id>')
 
 api.add_resource(Books, '/Books')                             # Get All Books
 api.add_resource(Book, '/Book/<book_id>')                     # Get a given book by ID

@@ -19,6 +19,20 @@ function audioSetup(){
     });
 }
 
+function playClick(panelNum){
+  if (!playPanelVisible()){
+    raisePlayPanel();
+  }
+
+  initAudioPlay(panelNum);
+
+  var playButton = $("#togglePlay")
+  playButton.html("<i class=\"fa fa-pause\" aria-hidden=\"true\"></i>")
+
+  var coverIMG = $("#playingImage");
+  coverIMG.attr("src", getCoverURI(playerState.getPlayingBook(), 200, 200));
+}
+
 function initAudioPlay(book_id){
     var source = document.getElementById('audioSource');
     var audio = document.getElementById('Player');

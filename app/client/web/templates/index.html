@@ -68,7 +68,7 @@
           <button class="navigationButton"><i class="fa fa-bookmark" aria-hidden="true"></i>  Bookmarks</button><br>
           <button class="navigationButton"><i class="fa fa-tags" aria-hidden="true"></i>  Tags</button><br>
           <hr>
-          <button class="navigationButton"><i class="fa fa-user" aria-hidden="true"></i>  Account</a><br>
+          <button class="navigationButton"><i class="fa fa-user" aria-hidden="true"></i>  Account</button><br>
           <button class="navigationButton"><i class="fa fa-cogs" aria-hidden="true"></i>  Setting</button><br>
       </div>
       <div id="sideBarToggle">
@@ -126,8 +126,9 @@
               <div style="max-height: 60%; overflow: auto; margin: 2%; font-family:Crimson Text;" id="infoBlock">
                 Description of Book
               </div>
-              <div id="infoPhotoContainer" style="height: 40%; width: 40%; position: relative; left: 2%;">
-                <img id="infoPhoto" src="{{ url_for('static',filename='img/bookPlaceHolder.png') }}" style="max-height: 100%; max-width: 100%;">
+              <div id="infoPhotoContainer" style="height: 40%; width: 98%; position: absolute; left: 2%;">
+                <ul class="rig" id="infoPhotoRig" style="margin-left:0; margin-right:0;"></ul>
+                <!-- <img id="infoPhoto" src="{{ url_for('static',filename='img/bookPlaceHolder.png') }}" style="max-height: 100%; max-width: 100%;"> -->
               </div>
             </div>
             <div id="infoFoot">

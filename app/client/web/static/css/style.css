@@ -15,9 +15,9 @@
     box-sizing:border-box;
     margin:0;
     padding:5px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
+    -moz-border-radius: 2%;
+    -webkit-border-radius: 2%;
+    border-radius: 2%;
 }
 
 /* The wrapper for each item */

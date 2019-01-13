@@ -10,6 +10,7 @@ from web.utils import run_normal_login, run_first_time_setup
 from web.utils import check_first_time_setup
 from web.utils import register_new_user
 import platform
+from datetime import datetime, timedelta
 
 null = 'null'
 
@@ -89,6 +90,19 @@ def getAuthorInfo(author_id):
     response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
     return response.text
 
+@app.route('/Books/author/<book_id>')
+@login_required
+def getBooksByAuthorByBook(book_id):
+    URI = "http://{}:5002/Books/author/{}".format(host_ip, book_id)
+    request = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
+    return request.text
+
+@app.route('/Author/<author_id>/books')
+@login_required
+def getAuthorBooks(author_id):
+    URI = 'http://{}:5002/Author/{}/books'.format(host_ip, author_id)
+    response = requests.get(URI, auth=HTTPBasicAuth(current_user.token, null))
+    return response.text
 
 @app.route('/Book/id:<book_id>/cover/width:<width>/height:<height>')
 def getCoverURI(book_id, width, height):
@@ -133,7 +147,12 @@ def userLogout():
 
 @app.route("/User/loggedin", methods=['GET'])
 def logged_in():
-    return str(current_user.is_authenticated)
+    user = current_user
+    if user.is_authenticated:
+        tokenExpiration = user.tokenLeaseStart + timedelta(seconds=550)
+        return str(datetime.now() < tokenExpiration)
+    else:
+        return str(False)
 
 
 @app.route("/User/register", methods=['GET', 'POST'])

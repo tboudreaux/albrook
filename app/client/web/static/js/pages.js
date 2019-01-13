@@ -25,9 +25,22 @@ function drawBookGallery(){
           <div class=\"rig-cell\" id=\"book_panel_`+ book.id +`\">
             <img class=\"rig-img\" src=\"` + coverURI + `\">
             <span class=\"rig-overlay\"></span>
-            <span class=\"rig-text\" id=\"rig-text-` + book.id +`\"><i id=\"playIcon\" class=\"fa fa-play-circle-o\" aria-hidden=\"true\"></i></span>
+            <span class=\"rig-text\" id=\"bg_rig-text-` + book.id +`\"><i id=\"playIcon\" class=\"fa fa-play-circle-o\" aria-hidden=\"true\"></i></span>
           </div>
       </li>`);
+      let cell = $("#book_panel_"+book.id);
+      let cell_text = $("#bg_rig-text-" + book.id);
+
+      cell.click(function(e){
+        clickListner(e, "book_panel_", "book");
+      });
+
+      cell_text.mousedown(function(){
+        updatePlayButtonDown(book.id, "bg_");
+      });
+      cell_text.mouseup(function(e){
+        updatePlayButtonUp(e, book.id, "bg_");
+      });
   }
 }
 
@@ -41,8 +54,14 @@ function drawAuthorGallery(){
           <div class=\"rig-cell\" id=\"author_panel_`+ author.id +`\">
             <img class=\"rig-img\" src=\"` + portraitURI + `\">
             <span class=\"rig-overlay\"></span>
-            <span class=\"rig-text\" id=\"rig-text-author-` + author.id +`\"></span>
+            <span class=\"rig-text\" id=\"ag_rig-text-` + author.id +`\"></span>
           </div>
       </li>`);
+      let cell = $("#author_panel_"+author.id);
+      cell.click(function(e){
+        clickListner(e, "author_panel_", "author");
+      });
   }
+
+
 }
