@@ -9,7 +9,6 @@ certifi==2018.11.29
 chardet==3.0.4
 Click==7.0
 decorator==4.3.0
-Django==2.1.4
 Flask==1.0.2
 Flask-Cors==3.0.7
 Flask-HTTPAuth==3.2.4
@@ -46,7 +45,7 @@ pytest==3.2.3
 python-dateutil==2.6.1
 python-editor==1.0.3
 pytz==2017.2
-PyYAML==3.12
+PyYAML>=4.2b1
 requests==2.21.0
 scipy==0.19.1
 six==1.12.0
