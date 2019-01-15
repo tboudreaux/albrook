@@ -34,20 +34,23 @@ function setBookInfo(book_id){
     let books = getBooksByAuthorByBook(book_id);
     let infoPhotoRig = $("#infoPhotoRig");
     infoPhotoRig.empty();
+    infoPhotoRig.append('<h3>Other Books By Author:</h3>');
     for (let book of books['data']){
-      coverURI = getCoverURI(book.id, 300, 300);
-      infoPhotoRig.append(`
-        <li>
-            <div class=\"rig-cell\" id=\"books_by_same_author_book_panel_`+ book.id +`\">
-              <img class=\"rig-img\" src=\"` + coverURI + `\">
-              <span class=\"rig-overlay\"></span>
-            </div>
-        </li>`);
+      if (book.id != book_id){
+        coverURI = getCoverURI(book.id, 300, 300);
+        infoPhotoRig.append(`
+          <li>
+              <div class=\"rig-cell\" id=\"books_by_same_author_book_panel_`+ book.id +`\">
+                <img class=\"rig-img\" src=\"` + coverURI + `\">
+                <span class=\"rig-overlay\"></span>
+              </div>
+          </li>`);
 
-        let cell = $("#books_by_same_author_book_panel_"+book.id);
-        cell.click(function(e){
-          clickListner(e, "books_by_same_author_book_panel_", "book");
-        });
+          let cell = $("#books_by_same_author_book_panel_"+book.id);
+          cell.click(function(e){
+            clickListner(e, "books_by_same_author_book_panel_", "book");
+          });
+        }
     }
   }
 }
@@ -71,15 +74,21 @@ function setAuthorInfo(author_id){
     let books = getAuthorBooks(author_id);
     let infoPhotoRig = $("#infoPhotoRig");
     infoPhotoRig.empty();
+    infoPhotoRig.append('<h3>Books By Author:</h3>');
     for (let book of books['data']){
       coverURI = getCoverURI(book.id, 300, 300);
       infoPhotoRig.append(`
         <li>
-            <div class=\"rig-cell\" id=\"book_panel_`+ book.id +`\">
+            <div class=\"rig-cell\" id=\"books_by_author_book_panel_`+ book.id +`\">
               <img class=\"rig-img\" src=\"` + coverURI + `\">
               <span class=\"rig-overlay\"></span>
             </div>
         </li>`);
+
+        let cell = $("#books_by_author_book_panel_"+book.id);
+        cell.click(function(e){
+          clickListner(e, "books_by_author_book_panel_", "book");
+        });
     }
   }
 }

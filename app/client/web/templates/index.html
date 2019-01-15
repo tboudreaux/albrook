@@ -117,6 +117,9 @@
             <div id="infoHead">
               <div class="gallery" id="titleHeader">
                 <h1 style="font-family:Crimson Text; margin: 2%;"><a id="infoTitle">Book Title Here</a></h1>
+                <div style="position: absolute; left: 90%; height: 100%;">
+                  <button class="navigationButton" style="vertical-align: middle;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                </div>
               </div>
               <h2 style="font-family:Crimson Text; margin: 2%;"><button id="infoSecondaryA" class="navigationButton" style="padding: 0;">Author Name</button></h2>
               <h2 style="font-family:Crimson Text; margin: 2%;"><a id="infoSecondaryB">Narrator Name</a></h2>
@@ -127,7 +130,7 @@
                 Description of Book
               </div>
               <div id="infoPhotoContainer" style="height: 40%; width: 98%; position: absolute; left: 2%;">
-                <ul class="rig" id="infoPhotoRig" style="margin-left:0; margin-right:0;"></ul>
+                <ul class="rig" id="infoPhotoRig" style="margin-left:0; margin-right:0; max-width: 30vw; max-height: 30vh;"></ul>
                 <!-- <img id="infoPhoto" src="{{ url_for('static',filename='img/bookPlaceHolder.png') }}" style="max-height: 100%; max-width: 100%;"> -->
               </div>
             </div>
