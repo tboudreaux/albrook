@@ -28,6 +28,8 @@
     <script type="text/javascript" src="{{ url_for('static',filename='js/pages.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/auth.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/click_listner.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/window.js') }}"></script>
+
 
     <script type="text/javascript">
       var prevPanel = -1;
@@ -117,8 +119,8 @@
             <div id="infoHead">
               <div class="gallery" id="titleHeader">
                 <h1 style="font-family:Crimson Text; margin: 2%;"><a id="infoTitle">Book Title Here</a></h1>
-                <div style="position: absolute; left: 90%; height: 100%;">
-                  <button class="navigationButton" style="vertical-align: middle;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                <div style="position: absolute; left: 90%; height: 100%; top: 35%;">
+                  <button class="navigationButton" style="vertical-align: middle; height:30%;"><i class="fa fa-pencil-square-o" aria-hidden="true" style="height: 100%;"></i></button>
                 </div>
               </div>
               <h2 style="font-family:Crimson Text; margin: 2%;"><button id="infoSecondaryA" class="navigationButton" style="padding: 0;">Author Name</button></h2>
@@ -166,7 +168,15 @@
                 <p id="currentTitle">Title<br></p><p id="currentAuthor">Author</p>
               </div>
               <div class="gelement" id="CurrentDynamicInfo">
-                <p id="currentChapter">Chapter</p>
+                <!-- <p id="currentChapter">Chapter</p> -->
+                <div class="dropdown">
+                  <button onclick="toggleChapterPane()" class="dropbtn">Chapter</button>
+                  <div id="chapterPane" class="dropdown-content">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -146,7 +146,7 @@ function GetPanelNumber(path){
 function updateCurrentPlayingInfo(currentTitle, currentAuthor, currentChapter){
     $("#currentTitle").text(currentTitle);
     $("#currentAuthor").text("Written by " + currentAuthor);
-    $("#currentChapter").text("Chapter " + currentChapter);
+    // $("#currentChapter").text("Chapter " + currentChapter);
 }
 
 function toggleArrowDirecion(){
@@ -259,4 +259,8 @@ function smartInfoShow(e, prevPanel, hideOveride, Hide){
 
   toggleinfoPane(panelNum, Hide);
   return {"panelNum": panelNum, "Hide": Hide};
+}
+
+function toggleChapterPane() {
+  document.getElementById("chapterPane").classList.toggle("show");
 }
