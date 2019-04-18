@@ -241,13 +241,11 @@ function playPanelVisible(){
 }
 
 function smartInfoShow(e, prevPanel, hideOveride, Hide){
-  console.log('e is: ', e)
   if (e.path){
     var panelNum = GetPanelNumber(e.path);
   }else{
     var panelNum = GetPanelNumber(e.originalEvent.path);
   }
-  console.log("PanelNum is: ", panelNum);
   if (!hideOveride){
       if (panelNum == prevPanel){
         Hide = true;
@@ -263,4 +261,19 @@ function smartInfoShow(e, prevPanel, hideOveride, Hide){
 
 function toggleChapterPane() {
   document.getElementById("chapterPane").classList.toggle("show");
+}
+
+function drawChapters(){
+  chapterPane = $("#chapterPane");
+  chapterPane.empty();
+  bookInfo = getBookInfo(bookSelector.getBook());
+  for (chapNum = 1; chapNum <= bookInfo.data[0].chapters; chapNum ++){
+    chapterPane.append("<p id=\"chap_"+chapNum+"\" class=\"chapterMenuItem\">Chapter " + chapNum + "</p>")
+  }
+  $( ".chapterMenuItem" ).each(function(index) {
+    $(this).on("click", function(){
+      playNthChapter(index);
+    });
+  });
+  console.log('Chapters Drawn');
 }

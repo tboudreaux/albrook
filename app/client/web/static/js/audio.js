@@ -70,15 +70,14 @@ function initAudioPlay(book_id){
     audio.play();
 }
 
-function playNextChapter(){
+function playNthChapter(chapter){
     clearInterval(window.timerID);
-    // TODO -> Add extra field to UsersBooks: finished
-    // TODO -> Add system for dealing with when book is finished
+
     var source = document.getElementById('audioSource');
     var audio = document.getElementById('Player');
-    var book_id = playerState.getPlayingBook()
+    var book_id = playerState.getPlayingBook();
 
-    playerState.incrimentCurrentChapter();
+    playerState.setCurrentChapter(chapter)
 
     source.src = getSyncStream(book_id, playerState.getCurrentChapter());
 
@@ -92,26 +91,16 @@ function playNextChapter(){
     updateCurrentPlayingInfo(info['title'], info['Authors'].join(', '), playerState.getCurrentChapter()+1);
 }
 
+function playNextChapter(){
+    let currentChapter = playerState.getCurrentChapter();
+    playNthChapter(currentChapter+1);
+}
+
 function playPrevChapter(){
-    clearInterval(window.timerID);
-    // TODO -> Add extra field to UsersBooks: finished
-    // TODO -> Add system for dealing with when book is finished
-    var source = document.getElementById('audioSource');
-    var audio = document.getElementById('Player');
-    var book_id = playerState.getPlayingBook()
+    let currentChapter = playerState.getCurrentChapter();
+    playNthChapter(currentChapter-1);
+}
 
-    playerState.decrimentCurrentChapter();
-
-    source.src = getSyncStream(book_id, playerState.getCurrentChapter());
-
-    audio.load();
-    audio.currentTime = 0;
-    audio.play();
-
-    postAudioPosition(playerState.getPlayingBook());
-    info = getBookInfo(book_id-1);
-    info = info['data'][0];
-    updateCurrentPlayingInfo(info['title'], info['Authors'].join(', '), playerState.getCurrentChapter()+1);}
 
 var advance = function() {
     audio = document.getElementById("Player")

@@ -9,6 +9,7 @@ function updatePlayButtonUp(e, panelNum, idPref){
   smartInfo = smartInfoShow(e, prevPanel, true, false);
   prevPanel = smartInfo.panelNum;
   Hide = smartInfo.Hide;
+  drawChapters();
 
   playClick(panelNum);
 }
