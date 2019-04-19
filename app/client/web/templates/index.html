@@ -29,6 +29,7 @@
     <script type="text/javascript" src="{{ url_for('static',filename='js/auth.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/click_listner.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/window.js') }}"></script>
+    <script src='https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1'></script>
 
 
     <script type="text/javascript">
@@ -157,43 +158,48 @@
           <source src="" id="audioSource">
         </audio>
         <div id="playControlsContainer" class="row">
-          <div class="quint-column">
+          <div class="tri-column">
             <div class="auto-resize-portrait">
               <img src="{{ url_for('static',filename='img/bookPlaceHolder.png') }}" id="playingImage" align="left">
             </div>
-          </div>
-          <div id="leftPlayPanel" class="quint-column">
             <div class="gallery">
               <div class="gelement" id="CurrentStaticInfo">
                 <p id="currentTitle">Title<br></p><p id="currentAuthor">Author</p>
               </div>
-              <div class="gelement" id="CurrentDynamicInfo">
-                <!-- <p id="currentChapter">Chapter</p> -->
-                <div id="chapterContainer" class="dropdown">
-                  <button onclick="toggleChapterPane()" class="dropbtn">Chapter</button>
-                  <div id="chapterPane" class="dropdown-content">
+            </div>
+          </div>
+          <div class="tri-column" id="buttonContainer">
+            <div class="intra_row">
+              <div class="tri-column" onClick="deltaTime(-30)" id="skipBack"><i class="fa fa-backward" aria-hidden="true"></i></div>
+              <div id="togglePlay" onClick="togglePlay()" class="tri-column playControls"><i class="fa fa-play" aria-hidden="true"></i></div>
+              <div class="tri-column" onClick="deltaTime(30)" id="skipForward"><i class="fa fa-forward" aria-hidden="true"></i></div>
+            </div>
+          </div>
 
-                    <!-- Java Script Fills in the chapers-->
-
+          <div id="rightPlayPanel" class="tri-column">
+            <div class="gelement" id="percentCompetedContainer">
+              <p id="percentCompeted">00:00:00/00:00:00</p>
+            </div>
+            <div class="gelement">
+                <div class="tri-column">
+                  <i class="fa fa-volume-up" aria-hidden="true"></i>
+                </div>
+                <div class="tri-column">
+                  <div id="chapterContainer" class="dropdown">
+                    <button id="chapterListControll" onclick="toggleChapterPane()" class="dropbtn">
+                        <i class="fa fa-list" aria-hidden="true"></i>
+                    </button>
+                    <div id="chapterPane" class="dropdown-content">
+  
+                      <!-- Java Script Fills in the chapers-->
+  
+                    </div>
                   </div>
                 </div>
-              </div>
+                <div class="tri-column">
+                  <button is='google-cast-button' id="castButton" class="navigationButton"></button>
+                </div>
             </div>
-          </div>
-          <div class="quint-column" id="buttonContainer">
-            <div class="intra_row">
-              <div class="tri-column" onClick="deltaTime(-30)" id="prevChapterSelect"><i class="fa fa-backward" aria-hidden="true"></i></div>
-              <div id="togglePlay" onClick="togglePlay()" class="tri-column playControls"><i class="fa fa-play" aria-hidden="true"></i></div>
-              <div class="tri-column" onClick="deltaTime(30)" id="nextChapterSelect"><i class="fa fa-forward" aria-hidden="true"></i></div>
-            </div>
-          </div>
-
-          <div id="rightPlayPanel" class="quint-column">
-            <p>Right Content Here</p>
-          </div>
-
-          <div id="trackInfo" class="quint-column">
-            <p id="percentCompeted">x/y</p>
           </div>
         </div>
       </div>

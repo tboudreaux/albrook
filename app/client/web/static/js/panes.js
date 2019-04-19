@@ -260,6 +260,7 @@ function smartInfoShow(e, prevPanel, hideOveride, Hide){
 }
 
 function toggleChapterPane() {
+  console.log('Toggeling');
   document.getElementById("chapterPane").classList.toggle("show");
 }
 

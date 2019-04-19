@@ -26,13 +26,12 @@ def index():
     else:
         return run_normal_login()
 
-
-
+        
 @app.route('/Book/id:<book_id>/chapter:<chapter_id>/stream')
 @login_required
 def TrackStream(book_id, chapter_id):
-    return 'http://{}:5002/Book/{}/{}/stream'.format(host_ip, book_id,
-                                                     chapter_id)
+    return 'http://{}:5002/Book/{}/{}/stream.mp3'.format(host_ip, book_id,
+                                                         chapter_id)
 
 
 @app.route('/Book/id:<book_id>/currentTrack')

@@ -9,8 +9,8 @@ app = Flask(__name__)
 login = LoginManager(app)
 app.config.from_object(Config)
 host_name = socket.gethostname()
-# host_ip = socket.gethostbyname(host_name)
-host_ip = "localhost"
+host_ip = socket.gethostbyname(host_name)
+# host_ip = "localhost"
 db = SQLAlchemy(app)
 
 from web.utils import clear_user_space

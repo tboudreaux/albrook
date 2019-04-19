@@ -389,7 +389,7 @@ api.add_resource(TotalBooks, '/TotalBooks')
 api.add_resource(TotalBooksByAuthor, '/TotalBooks/<author_id>')
 #
 api.add_resource(TrackInfo, '/Book/<book_id>/<chapter_id>/info')
-api.add_resource(TrackStream, '/Book/<book_id>/<chapter_id>/stream')
+api.add_resource(TrackStream, '/Book/<book_id>/<chapter_id>/stream.mp3')
 api.add_resource(CurrentTrack, '/Book/<book_id>/user/<user_id>/track')
 api.add_resource(GenerateToken, '/User/<username>/token')
 api.add_resource(UserInfo, '/User/<username>/info')

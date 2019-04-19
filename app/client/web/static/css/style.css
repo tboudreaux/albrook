@@ -241,6 +241,10 @@
   transform: scale(1);
 }
 
+.darkButton{
+  color: black;
+}
+
 .navigationButton:hover{
   transform: scale(1.05);
 }
@@ -354,32 +358,32 @@ html{
   transform: scale(1.05);
 }
 
-#prevChapterSelect{
-  background: #FAA947;
-  color: white;
+#skipBack{
+  /* background: #FAA947; */
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 10px auto 0;
   width: 64px;
   height: 64px;
-  border: 1px solid darken(#006B5A, 10%);
+  /* border: 1px solid darken(#006B5A, 10%); */
   border-radius: 50%;
   cursor: pointer;
   transition: transform 150ms ease-out;
   transform: scale(1);
 }
 
-#nextChapterSelect{
-  background: #FAA947;
-  color: white;
+#skipForward{
+  /* background: #FAA947; */
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 10px auto 0;
   width: 64px;
   height: 64px;
-  border: 1px solid darken(#006B5A, 10%);
+  /* border: 1px solid darken(#006B5A, 10%); */
   border-radius: 50%;
   cursor: pointer;
   transition: transform 150ms ease-out;
@@ -414,6 +418,11 @@ html{
   width: 33.33%;
 }
 
+.dual-column {
+  float: left;
+  width: 50%;
+}
+
 .row{
   display: flex;
 }
@@ -434,6 +443,10 @@ input[type=text], input[type=password] {
 #percentCompeted{
   text-align: right;
   margin-right: 5px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: small;
+  font-style: italic;
 }
 
 #playingImage{
@@ -442,18 +455,24 @@ input[type=text], input[type=password] {
   text-align: left;
 }
 
+#chapterSelect{
+  vertical-align: middle;
+}
+
+#chapterContainer{
+  position: relative;
+  top: 10%;
+}
+
 .dropbtn {
-  background-color: #FAA947;
-  color: white;
+  background-color: transparent;
+  color: black;
   padding: 16px;
   font-size: 16px;
   border: none;
   cursor: pointer;
 }
 
-.dropbtn:hover, .dropbtn:focus {
-  background-color: #d38f3b;
-}
 
 .dropdown {
   position: relative;
@@ -471,6 +490,7 @@ input[type=text], input[type=password] {
   bottom: 100%;
   overflow-y:auto;
   height: 25vh;
+  z-index: 10;
 }
 
 .dropdown-content p {
@@ -483,3 +503,24 @@ input[type=text], input[type=password] {
 .dropdown p:hover {background-color: #ddd;}
 
 .show {display: block;}
+
+#currentTitle{
+  text-align: left;
+  padding-left: 10px;
+  padding-bottom: 0px;
+  padding-top: 20px;
+  line-height: 3px;
+}
+
+#currentAuthor{
+  font-style: italic;
+  font-size: small;
+  text-align: left;
+  padding-left: 10px;
+  padding-top: 0px;
+}
+
+#castButton{
+  width: 50px;
+  height: 25px;
+}

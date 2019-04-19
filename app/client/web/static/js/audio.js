@@ -93,9 +93,11 @@ function playNthChapter(chapter, time=0, offset='start'){
     audio.play();
 
     postAudioPosition(playerState.getPlayingBook());
-    info = getBookInfo(book_id-1);
+    info = getBookInfo(book_id);
     info = info['data'][0];
     updateCurrentPlayingInfo(info['title'], info['Authors'].join(', '), playerState.getCurrentChapter()+1);
+
+    $("#togglePlay").html("<i class=\"fa fa-pause\" aria-hidden=\"true\"></i>")
 }
 
 function playNextChapter(time=0, offset='start'){
