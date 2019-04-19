@@ -70,7 +70,7 @@ function initAudioPlay(book_id){
     audio.play();
 }
 
-function playNthChapter(chapter){
+function playNthChapter(chapter, time=0, offset='start'){
     clearInterval(window.timerID);
 
     var source = document.getElementById('audioSource');
@@ -82,7 +82,14 @@ function playNthChapter(chapter){
     source.src = getSyncStream(book_id, playerState.getCurrentChapter());
 
     audio.load();
-    audio.currentTime = 0;
+    $("#Player").on("loadeddata", function(){
+        if (offset === 'start'){
+            audio.currentTime = time;
+        }
+        else if (offset === 'end'){
+            audio.currentTime = audio.duration + time
+        }
+    });
     audio.play();
 
     postAudioPosition(playerState.getPlayingBook());
@@ -91,16 +98,38 @@ function playNthChapter(chapter){
     updateCurrentPlayingInfo(info['title'], info['Authors'].join(', '), playerState.getCurrentChapter()+1);
 }
 
-function playNextChapter(){
+function playNextChapter(time=0, offset='start'){
     let currentChapter = playerState.getCurrentChapter();
-    playNthChapter(currentChapter+1);
+    playNthChapter(currentChapter+1, time=time, offset=offset);
 }
 
-function playPrevChapter(){
+function playPrevChapter(time=0, offset='start'){
     let currentChapter = playerState.getCurrentChapter();
-    playNthChapter(currentChapter-1);
+    playNthChapter(currentChapter-1, time=time, offset=offset);
 }
 
+function deltaTime(dt){
+    let audio = document.getElementById('Player');
+    let duration = audio.duration;
+    let currentTime = audio.currentTime;
+
+    // If you need to go to the next chapter
+    if (currentTime + dt > duration){
+        dt -= duration-currentTime
+        playNextChapter(time=dt);
+    }
+
+    // If you need to go to the previous chapter
+    else if (currentTime + dt < 0){
+        dt += currentTime;
+        playPrevChapter(time=dt, offset='end');
+    }
+
+    // Stay in the same chapter
+    else{
+        audio.currentTime = currentTime + dt;
+    }
+}
 
 var advance = function() {
     audio = document.getElementById("Player")

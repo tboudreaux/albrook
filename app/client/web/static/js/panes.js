@@ -275,5 +275,4 @@ function drawChapters(){
       playNthChapter(index);
     });
   });
-  console.log('Chapters Drawn');
 }
