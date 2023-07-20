@@ -46,7 +46,7 @@ python-dateutil==2.6.1
 python-editor==1.0.3
 pytz==2017.2
 PyYAML>=4.2b1
-requests==2.21.0
+requests==2.31.0
 scipy==0.19.1
 six==1.12.0
 SQLAlchemy==1.2.15
